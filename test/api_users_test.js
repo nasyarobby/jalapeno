@@ -3,7 +3,7 @@ process.env.NODE_ENV = "test"
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 chai.use(chaiHttp);
-const should = chai.should();
+chai.should();
 
 const App = require("../app");
 const agent = chai.request(App).keepOpen();
@@ -13,6 +13,11 @@ let validUser = {
     email: "newuser@somedomain.com",
     username: "username01",
     name: "Some Random Name",
+    password: "secret"
+}
+
+let validCredential = {
+    login: "alice001",
     password: "secret"
 }
 
@@ -165,11 +170,104 @@ describe("API Routes", function () {
             .put("/api/users/register")
             .send(user)
             .end((err, res) => {
-                console.log(res.data)
                 res.should.have.status(200);
                 res.should.be.json;
                 res.body.status.should.equal('fail');
                 res.body.data.password[0].message.should.equal("Password cannot start/end with space.")
+                done();
+            })
+    })
+
+    it("should authenticate user with correct username and password", function (done) {
+        let user = Object.assign({}, validCredential);
+        agent
+            .post("/api/users/login")
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('success');
+                res.body.data.should.have.property("token");
+                done();
+            })
+    })
+
+    it("should reject if missing login", function (done) {
+        let user = Object.assign({}, validCredential);
+        delete user.login;
+        agent
+            .post("/api/users/login")
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('fail');
+                res.body.data.should.not.have.property("token");
+                res.body.data.login[0].message.should.equal("Login is required.")
+                done();
+            })
+    })
+
+    it("should reject if missing password", function (done) {
+        let user = Object.assign({}, validCredential);
+        delete user.password;
+        agent
+            .post("/api/users/login")
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('fail');
+                res.body.data.should.not.have.property("token");
+                res.body.data.password[0].message.should.equal("Password is required.")
+                done();
+            })
+    })
+
+    it("should reject if login is empty / contain only spaces", function (done) {
+        let user = Object.assign({}, validCredential);
+        user.login = "    ";
+        agent
+            .post("/api/users/login")
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('fail');
+                res.body.data.should.not.have.property("token");
+                res.body.data.login[0].message.should.equal("Login cannot be empty.")
+                done();
+            })
+    })
+
+    it("should reject if password is empty / contain only spaces", function (done) {
+        let user = Object.assign({}, validCredential);
+        user.password = "  ";
+        agent
+            .post("/api/users/login")
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('fail');
+                res.body.data.should.not.have.property("token");
+                res.body.data.password[0].message.should.equal("Password cannot be empty.")
+                done();
+            })
+    })
+
+    it("should reject if login/password does not match", function (done) {
+        let user = Object.assign({}, validCredential);
+        user.password += "a"
+        agent
+            .post("/api/users/login")
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('fail');
+                res.body.data.should.not.have.property("token");
+                res.body.data.authentication[0].message.should.equal("Authentication failed.")
                 done();
             })
     })
