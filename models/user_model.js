@@ -1,0 +1,50 @@
+const Model = require("./model");
+const knex = require("../knex");
+
+Model.knex(knex);
+
+class User extends Model {
+    static get tableName() {
+        return 'users';
+    }
+    static get jsonSchema() {
+        return {
+            type: 'object',
+            required: ["username", "email", "name", "password"],
+            errorMessage: {
+                properties: {
+                    "username": "username is required.",
+                    "email": "email is required.",
+                    "name": "name is required.",
+                    "password": "password is required"
+                },
+            },
+            properties: {
+                username: {
+                    type: 'string',
+                    minLength: 5,
+                    maxLength: 32,
+                    pattern: '^[a-zA-Z0-9_]*$',
+                    errorMessage: {
+                        pattern: "username is invalid.",
+                        minLength: "username is too short.",
+                        maxLength: 'username is too long.'
+                    }
+                },
+                email: {
+                    format: 'email',
+                    errorMessage: {
+                        format: 'email is invalid.'
+                    }
+                },
+                name: {
+                    type: 'string',
+                    minLength: 3,
+                    maxLength: 255,
+                },
+            }
+        }
+    }
+}
+
+module.exports = User;
