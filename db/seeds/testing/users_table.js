@@ -1,3 +1,5 @@
+let hash = require("./../../../libs/hash").hash
+
 exports.seed = function (knex, Promise) {
   // Deletes ALL existing entries
   return knex('users').del()
@@ -7,7 +9,7 @@ exports.seed = function (knex, Promise) {
           id: 1,
           email: 'alice@gmail.com',
           username: 'alice001',
-          password: 'secret',
+          password: hash('secret'),
           name: 'Alice Peace',
           verification_code: null,
           verification_code_expired_at: null,
@@ -17,7 +19,7 @@ exports.seed = function (knex, Promise) {
           id: 2,
           email: 'bob@gmail.com',
           username: 'bobby002',
-          password: 'secret',
+          password: hash('secret'),
           name: 'Bobby Bobo',
           verification_code: null,
           verification_code_expired_at: null,
@@ -27,7 +29,7 @@ exports.seed = function (knex, Promise) {
           id: 3,
           email: 'charlie@gmail.com',
           username: 'charlie003',
-          password: 'secret',
+          password: hash('secret'),
           name: 'Charlie Charlotte',
           verification_code: null,
           verification_code_expired_at: null,
