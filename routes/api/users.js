@@ -2,15 +2,10 @@ const JSend = new(require("../../libs/jsend"))();
 const express = require('express')
 const router = express.Router()
 const User = require('../../models/user_model.js')
-const bcrypt = require("bcryptjs");
+const hash = require("./../../libs/hash").hash;
 const {
     ValidationError
 } = require('objection');
-
-
-function hash(text) {
-    return bcrypt.hashSync(text, bcrypt.genSaltSync(10));
-}
 
 router.get('/users', (req, res) => {
     User.query()
