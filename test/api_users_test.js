@@ -62,7 +62,18 @@ describe("API Routes", function () {
             })
     })
 
-    it("should return specific users")
+    it("should return specific users", function (done) {
+        agent
+            .get("/api/users/1")
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal("success");
+                res.body.data.id.should.equal(1);
+                res.body.data.should.not.have.property('password');
+                done();
+            })
+    })
 
     it("should register new user", function (done) {
         agent
