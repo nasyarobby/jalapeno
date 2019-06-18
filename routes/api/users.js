@@ -10,6 +10,18 @@ const {
 var passport = require("./../../libs/passport_local");
 const jwt = require('jsonwebtoken');
 
+router.get("/users/:id", (req, res) => {
+    User
+        .query()
+        .where('id', req.params.id)
+        .then(users => {
+            let user = users[0];
+            delete user.password;
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSend.setSuccess(user).send());
+        })
+})
+
 router.get('/users', (req, res) => {
     User.query()
         .then(users => {
