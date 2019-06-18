@@ -42,6 +42,22 @@ class User extends Model {
                     minLength: 3,
                     maxLength: 255,
                 },
+                password: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 255
+                },
+                verification_code: {
+                    type: 'string'
+                },
+                verified_at: {
+                    type: 'date-time'
+                },
+                usertype: {
+                    type: 'integer',
+                    minimum: 0,
+                    maximum: 2 // 0: free, 1: paid, 2: admin
+                }
             }
         }
     }
