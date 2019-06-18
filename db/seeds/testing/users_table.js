@@ -13,7 +13,7 @@ exports.seed = function (knex, Promise) {
           name: 'Alice Peace',
           verification_code: null,
           verification_code_expired_at: null,
-          verified_at: null
+          verified_at: new Date("October 19, 2018 11:13:00")
         },
         {
           id: 2,
