@@ -21,6 +21,11 @@ let validCredential = {
     password: "secret"
 }
 
+let validCredentialUnverifiedUser = {
+    login: "bobby002",
+    password: "secret"
+}
+
 describe("API Routes", function () {
 
     beforeEach(function (done) {
@@ -56,6 +61,8 @@ describe("API Routes", function () {
                 done();
             })
     })
+
+    it("should return specific users")
 
     it("should register new user", function (done) {
         agent
@@ -178,7 +185,7 @@ describe("API Routes", function () {
             })
     })
 
-    it("should authenticate user with correct username and password", function (done) {
+    it("should authenticate user with correct username and password (Verified)", function (done) {
         let user = Object.assign({}, validCredential);
         agent
             .post("/api/users/login")
@@ -188,6 +195,21 @@ describe("API Routes", function () {
                 res.should.be.json;
                 res.body.status.should.equal('success');
                 res.body.data.should.have.property("token");
+                done();
+            })
+    })
+
+    it("should reject user with correct username and password (Unverified)", function (done) {
+        let user = Object.assign({}, validCredentialUnverifiedUser);
+        agent
+            .post("/api/users/login")
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('fail');
+                res.body.data.should.not.have.property("token");
+                res.body.data.authentication[0].message.should.equal("Authentication failed. User has not been verified.")
                 done();
             })
     })
@@ -271,4 +293,5 @@ describe("API Routes", function () {
                 done();
             })
     })
+    it("should verify the user using a link")
 })
