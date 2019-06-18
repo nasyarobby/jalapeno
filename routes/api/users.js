@@ -127,6 +127,13 @@ router.post("/users/login", (req, res) => {
                         message: "Authentication failed."
                     }]
                 }).send());
+            } else if (user.verified_at == null) {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSend.setFail({
+                    authentication: [{
+                        message: "Authentication failed. User has not been verified."
+                    }]
+                }).send());
             } else {
                 const payload = {
                     uid: user.id,

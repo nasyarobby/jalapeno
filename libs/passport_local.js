@@ -18,6 +18,9 @@ passport.use(
                     if (users.length > 0 && compareHash(password, users[0].password)) {
                         let user = users[0]
                         delete(user.password);
+
+                        // if the user is not verified, return it to the routes and let it reject the authentication
+
                         return cb(null, user);
                     } else {
                         return cb(null, false);
