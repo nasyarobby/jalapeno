@@ -10,6 +10,19 @@ const {
 var passport = require("./../../libs/passport_local");
 const jwt = require('jsonwebtoken');
 
+hashCode = function (str) {
+    var hash = 0;
+    if (str.length == 0) {
+        return hash;
+    }
+    for (var i = 0; i < str.length; i++) {
+        var char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return Math.abs(hash).toString(16);
+}
+
 router.get("/users/:id", (req, res) => {
     User
         .query()
@@ -31,6 +44,14 @@ router.get('/users', (req, res) => {
 })
 
 router.put('/users/register', (req, res) => {
+    let date = new Date();
+    date.setDate(date.getDate() + 1);
+
+    let email = req.body.email ? req.body.email.trim() : req.body.email;
+    let username = req.body.username ? req.body.username.trim() : req.body.username;
+    let password = hash(req.body.password);
+    let name = req.body.name ? req.body.name.trim() : req.body.name;
+
     User
         .query()
         .runBefore(() => {
@@ -45,13 +66,17 @@ router.put('/users/register', (req, res) => {
                 })
             }
         })
-        .insert({
-            email: req.body.email ? req.body.email.trim() : req.body.email,
-            username: req.body.username ? req.body.username.trim() : req.body.username,
-            password: hash(req.body.password),
-            name: req.body.name ? req.body.name.trim() : req.body.name
+        .insertAndFetch({
+            email: email,
+            username: username,
+            password: password,
+            name: name,
+            verification_code: hashCode(date.toString()) + hashCode(username + date.toString()) + hashCode(email + date.toString()) + hashCode(name + date.toString()),
+            verification_code_expired_at: date
         })
         .then(users => {
+            delete users.password;
+            delete users.verification_code;
             res.setHeader('Content-Type', 'application/json');
             res.send(JSend.setSuccess(users).send());
         })
