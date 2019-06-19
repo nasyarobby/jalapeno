@@ -84,7 +84,9 @@ describe("API Routes", function () {
                 res.body.status.should.equal('success');
                 res.should.be.json;
                 res.body.data.id.should.equal(4);
-                res.body.data.password.length.should.equal(60); // bcrypt always return 60 bytes hash
+                should.not.exist(res.body.data.verified_at);
+                res.body.data.should.not.have.property("password");
+                res.body.data.should.not.have.property("verification_code");
                 done();
             })
     })
@@ -100,7 +102,9 @@ describe("API Routes", function () {
                 res.body.status.should.equal('success');
                 res.should.be.json;
                 res.body.data.id.should.equal(4);
-                res.body.data.password.length.should.equal(60); // bcrypt always return 60 bytes hash
+                should.not.exist(res.body.data.verified_at);
+                res.body.data.should.not.have.property("password");
+                res.body.data.should.not.have.property("verification_code");
                 done();
             })
     })
