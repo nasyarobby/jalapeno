@@ -1,5 +1,6 @@
 let hash = require("./../../../libs/hash").hash
-
+let date = new Date();
+date.setDate(date.getDate() + 1)
 exports.seed = function (knex, Promise) {
   // Deletes ALL existing entries
   return knex('users').del()
@@ -21,8 +22,8 @@ exports.seed = function (knex, Promise) {
           username: 'bobby002',
           password: hash('secret'),
           name: 'Bobby Bobo',
-          verification_code: null,
-          verification_code_expired_at: null,
+          verification_code: "justsomerandomlinktoidentifytheuser",
+          verification_code_expired_at: date,
           verified_at: null
         },
         {
@@ -31,8 +32,8 @@ exports.seed = function (knex, Promise) {
           username: 'charlie003',
           password: hash('secret'),
           name: 'Charlie Charlotte',
-          verification_code: null,
-          verification_code_expired_at: null,
+          verification_code: "justsomerandomlinktoidentifytheuserhoweverthisisexpired",
+          verification_code_expired_at: new Date(),
           verified_at: null
         }
       ]);
