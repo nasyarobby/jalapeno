@@ -3,7 +3,7 @@ process.env.NODE_ENV = "test"
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 chai.use(chaiHttp);
-chai.should();
+const should = chai.should();
 
 const App = require("../app");
 const agent = chai.request(App).keepOpen();
@@ -304,5 +304,56 @@ describe("API Routes", function () {
                 done();
             })
     })
-    it("should verify the user using a link")
+    it("should verify the user using a link", function (done) {
+        agent
+            .post("/api/users/verify")
+            .send({
+                email: "bob@gmail.com",
+                code: "justsomerandomlinktoidentifytheuser"
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('success');
+                should.not.exist(res.body.data.verification_code);
+                should.not.exist(res.body.data.verification_code_verified_at);
+                res.body.data.should.not.have.property("password");
+                res.body.data.verified_at.should.not.be.null;
+                done();
+            })
+    })
+
+    it("should not verify the user using an expired link", function (done) {
+        agent
+            .post("/api/users/verify")
+            .send({
+                email: "charlie@gmail.com",
+                code: "justsomerandomlinktoidentifytheuserhoweverthisisexpired"
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('fail');
+                should.not.exist(res.body.data.id);
+                res.body.data.verification[0].message.should.equal("Invalid/expired verification code.")
+                done();
+            })
+    })
+
+    it("should not verify the user using invalid link", function (done) {
+        agent
+            .post("/api/users/verify")
+            .send({
+                email: "charlie@gmail.com",
+                code: "invalidcode"
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('fail');
+                should.not.exist(res.body.data.id);
+                res.body.data.verification[0].message.should.equal("Invalid/expired verification code.")
+                done();
+            })
+    })
 })
