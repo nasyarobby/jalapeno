@@ -48,10 +48,10 @@ class User extends Model {
                     maxLength: 255
                 },
                 verification_code: {
-                    type: 'string'
+                    type: 'string, null'
                 },
                 verified_at: {
-                    type: 'date-time'
+                    type: 'date-time, null'
                 },
                 usertype: {
                     type: 'integer',
