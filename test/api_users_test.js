@@ -87,6 +87,7 @@ describe("API Routes", function () {
                 should.not.exist(res.body.data.verified_at);
                 res.body.data.should.not.have.property("password");
                 res.body.data.should.not.have.property("verification_code");
+                res.body.data.verification_code_expired_at.should.not.be.null;
                 done();
             })
     })
@@ -105,6 +106,7 @@ describe("API Routes", function () {
                 should.not.exist(res.body.data.verified_at);
                 res.body.data.should.not.have.property("password");
                 res.body.data.should.not.have.property("verification_code");
+                res.body.data.verification_code_expired_at.should.not.be.null;
                 done();
             })
     })
