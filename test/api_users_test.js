@@ -111,6 +111,52 @@ describe("API Routes", function () {
             })
     })
 
+    it("should reject if username exists", function (done) {
+        let user = Object.assign({}, validUser);
+        user.username = "Alice001";
+        agent
+            .put("/api/users/register")
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.data.username[0].message.should.equal("username is already registered.")
+                res.body.status.should.equal('fail');
+                done();
+            })
+    })
+
+    it("should reject if email exists", function (done) {
+        let user = Object.assign({}, validUser);
+        user.email = "alice@gmail.com";
+        agent
+            .put("/api/users/register")
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.data.email[0].message.should.equal("email is already registered.")
+                res.body.status.should.equal('fail');
+                done();
+            })
+    })
+
+    it("should reject if all params are missing", function (done) {
+        agent
+            .put("/api/users/register")
+            .send({})
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.data.username[0].message.should.equal("username is required.")
+                res.body.data.email[0].message.should.equal("email is required.")
+                res.body.data.name[0].message.should.equal("name is required.")
+                res.body.data.password[0].message.should.equal("password is required.")
+                res.body.status.should.equal('fail');
+                done();
+            })
+    })
+
     it("should reject if username is missing", function (done) {
         let user = Object.assign({}, validUser);
         delete user.username;
@@ -362,4 +408,10 @@ describe("API Routes", function () {
                 done();
             })
     })
+
+    it("should generate new verification code (if it is unverified)")
+
+    it("should not generate new verification code (if it is verified)")
+
+    it("should not generate new verification code if not loggedin.")
 })
