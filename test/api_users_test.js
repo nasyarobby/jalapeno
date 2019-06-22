@@ -358,7 +358,7 @@ describe("API Routes", function () {
     })
     it("should verify the user using a link", function (done) {
         agent
-            .post("/api/users/verify")
+            .post("/api/users/verify-email")
             .send({
                 email: "bob@gmail.com",
                 code: "justsomerandomlinktoidentifytheuser"
@@ -377,7 +377,7 @@ describe("API Routes", function () {
 
     it("should not verify the user using an expired link", function (done) {
         agent
-            .post("/api/users/verify")
+            .post("/api/users/verify-email")
             .send({
                 email: "charlie@gmail.com",
                 code: "justsomerandomlinktoidentifytheuserhoweverthisisexpired"
@@ -394,7 +394,7 @@ describe("API Routes", function () {
 
     it("should not verify the user using invalid link", function (done) {
         agent
-            .post("/api/users/verify")
+            .post("/api/users/verify-email")
             .send({
                 email: "charlie@gmail.com",
                 code: "invalidcode"

@@ -10,7 +10,7 @@ const {
 var passport = require("./../../libs/passport_local");
 const jwt = require('jsonwebtoken');
 
-hashCode = function (str) {
+var hashCode = function (str) {
     var hash = 0;
     if (str.length == 0) {
         return hash;
@@ -21,6 +21,47 @@ hashCode = function (str) {
         hash = hash & hash; // Convert to 32bit integer
     }
     return Math.abs(hash).toString(16);
+}
+
+var sendVerificationCode = (username, to, name, code) => {
+    if (process.env.NODE_ENV == "test")
+        return;
+
+    const nodemailer = require("nodemailer");
+
+    let config = {
+        host: "mail.lineatpremiumid.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: "admin@lineatpremiumid.com",
+            pass: "error403"
+        }
+    }
+
+    let verificationCodeLink = process.env.HOST + "/verify-email/" + to + "/" + code;
+
+    let html = `<p>Hi, ${name}.</p>
+    <p>Thank you for signing up.</p>
+    <p>Your username is ${username}</p>
+    <p>Please click the following link to verify your email address.</p>
+    <p><a href="${verificationCodeLink}">${verificationCodeLink}</a></p>`
+
+    let email = {
+        from: "no-reply@jalapeno.app",
+        to: to,
+        subject: "Thank you for signing up at Jalapeno!",
+        "html": html,
+        "text": html
+    }
+
+    let transporter = nodemailer.createTransport(config);
+
+    transporter.sendMail(email, function (err, info) {
+        if (err)
+            console.log(err);
+        console.log(info);
+    });
 }
 
 router.get("/users/:id", (req, res) => {
@@ -138,6 +179,8 @@ router.put('/users/register', (req, res) => {
                 })
         })
         .then(users => {
+            //send verification code
+            sendVerificationCode(username, email, name, users.verification_code);
             delete users.password;
             delete users.verification_code;
             res.setHeader('Content-Type', 'application/json');
@@ -158,7 +201,7 @@ router.put('/users/register', (req, res) => {
         })
 })
 
-router.post("/users/verify", (req, res) => {
+router.post("/users/verify-email", (req, res) => {
     let email = req.body.email;
     let code = req.body.code;
 
