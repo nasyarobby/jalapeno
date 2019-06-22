@@ -23,7 +23,7 @@ var hashCode = function (str) {
     return Math.abs(hash).toString(16);
 }
 
-var sendVerificationCode = (to, name, code) => {
+var sendVerificationCode = (username, to, name, code) => {
     if (process.env.NODE_ENV == "test")
         return;
 
@@ -39,10 +39,11 @@ var sendVerificationCode = (to, name, code) => {
         }
     }
 
-    let verificationCodeLink = process.env.HOST + "/verify-email/" + code;
+    let verificationCodeLink = process.env.HOST + "/verify-email/" + to + "/" + code;
 
     let html = `<p>Hi, ${name}.</p>
     <p>Thank you for signing up.</p>
+    <p>Your username is ${username}</p>
     <p>Please click the following link to verify your email address.</p>
     <p><a href="${verificationCodeLink}">${verificationCodeLink}</a></p>`
 
@@ -179,7 +180,7 @@ router.put('/users/register', (req, res) => {
         })
         .then(users => {
             //send verification code
-            sendVerificationCode(email, name, users.verification_code);
+            sendVerificationCode(username, email, name, users.verification_code);
             delete users.password;
             delete users.verification_code;
             res.setHeader('Content-Type', 'application/json');
@@ -200,7 +201,7 @@ router.put('/users/register', (req, res) => {
         })
 })
 
-router.post("/users/verify", (req, res) => {
+router.post("/users/verify-email", (req, res) => {
     let email = req.body.email;
     let code = req.body.code;
 
