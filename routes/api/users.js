@@ -24,18 +24,18 @@ var hashCode = function (str) {
 }
 
 var sendVerificationCode = (username, to, name, code) => {
-    if (process.env.NODE_ENV == "test")
+    if (process.env.NODE_ENV == "test" || !process.env.SMTP_HOST)
         return;
 
     const nodemailer = require("nodemailer");
 
     let config = {
-        host: "mail.lineatpremiumid.com",
-        port: 465,
-        secure: true,
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        secure: process.env.SMTP_SECURE_MODE,
         auth: {
-            user: "admin@lineatpremiumid.com",
-            pass: "error403"
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD
         }
     }
 
