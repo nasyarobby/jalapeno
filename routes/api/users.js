@@ -23,7 +23,7 @@ var hashCode = function (str) {
     return Math.abs(hash).toString(16);
 }
 
-var sendVerificationCode = (username, to, name, code) => {
+var sendVerificationCode = (username, to, name, code, resend = false) => {
     if (process.env.NODE_ENV == "test" || !process.env.SMTP_HOST)
         return;
 
@@ -47,12 +47,17 @@ var sendVerificationCode = (username, to, name, code) => {
     <p>Please click the following link to verify your email address.</p>
     <p><a href="${verificationCodeLink}">${verificationCodeLink}</a></p>`
 
+    let html2 = `<p>Hi, ${name}.</p>
+    <p>Your username is ${username}</p>
+    <p>Please click the following link to verify your email address.</p>
+    <p><a href="${verificationCodeLink}">${verificationCodeLink}</a></p>`
+
     let email = {
         from: "no-reply@jalapeno.app",
         to: to,
-        subject: "Thank you for signing up at Jalapeno!",
-        "html": html,
-        "text": html
+        subject: resend ? "Verify your email address" : "Thank you for signing up at Jalapeno!",
+        "html": resend ? html2 : html,
+        "text": resend ? html2 : html
     }
 
     let transporter = nodemailer.createTransport(config);
@@ -331,6 +336,35 @@ router.post("/users/login", (req, res) => {
             }
         })(req, res);
     }
+})
+
+router.post("/users/verify-email/resend-code", (req, res) => {
+    let email = req.body.email;
+    let date = new Date();
+    date.setDate(date.getDate() + 1);
+
+    User.query()
+        .where({
+            email: email,
+            verified_at: null
+        })
+        .then(user => {
+            if (user.length > 0) {
+                User.query().patchAndFetchById(user[0].id, {
+                        verification_code: hashCode(date.toString()) + hashCode(user.username + date.toString()) + hashCode(user.email + date.toString()) + hashCode(user.name + date.toString()),
+                        verification_code_expired_at: date
+                    })
+                    .then(user => {
+                        sendVerificationCode(user.username, user.email, user.name, user.verification_code);
+                    })
+
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSend.setSuccess().send());
+            } else {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSend.setFail().send());
+            }
+        })
 })
 
 module.exports = {

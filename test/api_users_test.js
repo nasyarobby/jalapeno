@@ -409,9 +409,31 @@ describe("API Routes", function () {
             })
     })
 
-    it("should generate new verification code (if it is unverified)")
+    it("should generate new verification code (if it is unverified)", function (done) {
+        agent
+            .post("/api/users/verify-email/resend-code")
+            .send({
+                email: "charlie@gmail.com"
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('success');
+                done();
+            })
+    });
 
-    it("should not generate new verification code (if it is verified)")
-
-    it("should not generate new verification code if not loggedin.")
+    it("should not generate new verification code (if it is verified)", function (done) {
+        agent
+            .post("/api/users/verify-email/resend-code")
+            .send({
+                email: "alice@gmail.com"
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.status.should.equal('fail');
+                done();
+            })
+    })
 })
