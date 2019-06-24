@@ -5,7 +5,7 @@ This part explains the API server (Backend)
 - NodeJS
 - KnexJS installed globally
 - Optional: MySQL
-- 
+
 ### Installing KnexJs
 ```
 npm i knex -g
