@@ -355,7 +355,7 @@ router.post("/users/verify-email/resend-code", (req, res) => {
                         verification_code_expired_at: date
                     })
                     .then(user => {
-                        sendVerificationCode(user.username, user.email, user.name, user.verification_code);
+                        sendVerificationCode(user.username, user.email, user.name, user.verification_code, true);
                     })
 
                 res.setHeader('Content-Type', 'application/json');
