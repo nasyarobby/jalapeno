@@ -20,6 +20,21 @@ module.exports = {
     }
   },
 
+  sqlite: {
+    client: 'sqlite3',
+    connection: {
+      filename: "./database.db"
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: __dirname + '/db/migrations/development'
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds/development'
+    }
+  },
+
+
   test: {
     client: 'mysql',
     connection: {
