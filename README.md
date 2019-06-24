@@ -19,6 +19,7 @@ cd jalapeno
 
 Copy ```.env.example``` to ```.env``` and update the content to match your machine configuration.
 
+Run the following command
 ```
 npm i
 knex migrate:up
