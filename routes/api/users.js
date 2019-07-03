@@ -10,66 +10,14 @@ const {
 var passport = require("./../../libs/passport_local");
 const jwt = require('jsonwebtoken');
 
-var hashCode = function (str) {
-    var hash = 0;
-    if (str.length == 0) {
-        return hash;
-    }
-    for (var i = 0; i < str.length; i++) {
-        var char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    return Math.abs(hash).toString(16);
-}
+router.get("/users/:id", getUserById)
+router.get('/users', getAllUsers)
+router.put('/users/register', registerNewUser)
+router.post("/users/verify-email", verifyEmail)
+router.post("/users/login", authenticateUser)
+router.post("/users/verify-email/resend-code", resendEmailVerificationCode)
 
-var sendVerificationCode = (username, to, name, code, resend = false) => {
-    if (process.env.NODE_ENV == "test" || !process.env.SMTP_HOST)
-        return;
-
-    const nodemailer = require("nodemailer");
-
-    let config = {
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT),
-        secure: process.env.SMTP_SECURE_MODE == "true" ? true : false,
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASSWORD
-        }
-    }
-
-    let verificationCodeLink = process.env.HOST + "/verify-email/" + to + "/" + code;
-
-    let html = `<p>Hi, ${name}.</p>
-    <p>Thank you for signing up.</p>
-    <p>Your username is ${username}</p>
-    <p>Please click the following link to verify your email address.</p>
-    <p><a href="${verificationCodeLink}">${verificationCodeLink}</a></p>`
-
-    let html2 = `<p>Hi, ${name}.</p>
-    <p>Your username is ${username}</p>
-    <p>Please click the following link to verify your email address.</p>
-    <p><a href="${verificationCodeLink}">${verificationCodeLink}</a></p>`
-
-    let email = {
-        from: "no-reply@jalapeno.app",
-        to: to,
-        subject: resend ? "Verify your email address" : "Thank you for signing up at Jalapeno!",
-        "html": resend ? html2 : html,
-        "text": resend ? html2 : html
-    }
-
-    let transporter = nodemailer.createTransport(config);
-
-    transporter.sendMail(email, function (err, info) {
-        if (err)
-            console.log(err);
-        console.log(info);
-    });
-}
-
-router.get("/users/:id", (req, res) => {
+function getUserById(req, res) {
     User
         .query()
         .where('id', req.params.id)
@@ -79,17 +27,17 @@ router.get("/users/:id", (req, res) => {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSend.setSuccess(user).send());
         })
-})
+}
 
-router.get('/users', (req, res) => {
+function getAllUsers(req, res) {
     User.query()
         .then(users => {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSend.setSuccess(users).send());
         })
-})
+}
 
-router.put('/users/register', (req, res) => {
+function registerNewUser(req, res) {
     let date = new Date();
     date.setDate(date.getDate() + 1);
 
@@ -120,7 +68,6 @@ router.put('/users/register', (req, res) => {
             }
         }))
     }
-
 
     let username = req.body.username ? req.body.username.trim() : req.body.username;
 
@@ -204,9 +151,9 @@ router.put('/users/register', (req, res) => {
             }
 
         })
-})
+}
 
-router.post("/users/verify-email", (req, res) => {
+function verifyEmail(req, res) {
     let email = req.body.email;
     let code = req.body.code;
 
@@ -241,9 +188,9 @@ router.post("/users/verify-email", (req, res) => {
                     }]
                 }).send());
         })
-})
+}
 
-router.post("/users/login", (req, res) => {
+function authenticateUser(req, res) {
     let errors = [];
     if (!req.body || !req.body.login || !req.body.password) {
 
@@ -336,9 +283,9 @@ router.post("/users/login", (req, res) => {
             }
         })(req, res);
     }
-})
+}
 
-router.post("/users/verify-email/resend-code", (req, res) => {
+function resendEmailVerificationCode(req, res) {
     let email = req.body.email;
     let date = new Date();
     date.setDate(date.getDate() + 1);
@@ -365,7 +312,67 @@ router.post("/users/verify-email/resend-code", (req, res) => {
                 res.send(JSend.setFail().send());
             }
         })
-})
+}
+
+function hashCode(str) {
+    var hash = 0;
+    if (str.length == 0) {
+        return hash;
+    }
+    for (var i = 0; i < str.length; i++) {
+        var char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return Math.abs(hash).toString(16);
+}
+
+
+function sendVerificationCode(username, to, name, code, resend = false) {
+    if (process.env.NODE_ENV == "test" || !process.env.SMTP_HOST)
+        return;
+
+    const nodemailer = require("nodemailer");
+
+    let config = {
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT),
+        secure: process.env.SMTP_SECURE_MODE == "true" ? true : false,
+        auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD
+        }
+    }
+
+    let verificationCodeLink = process.env.HOST + "/verify-email/" + to + "/" + code;
+
+    let html = `<p>Hi, ${name}.</p>
+    <p>Thank you for signing up.</p>
+    <p>Your username is ${username}</p>
+    <p>Please click the following link to verify your email address.</p>
+    <p><a href="${verificationCodeLink}">${verificationCodeLink}</a></p>`
+
+    let html2 = `<p>Hi, ${name}.</p>
+    <p>Your username is ${username}</p>
+    <p>Please click the following link to verify your email address.</p>
+    <p><a href="${verificationCodeLink}">${verificationCodeLink}</a></p>`
+
+    let email = {
+        from: "no-reply@jalapeno.app",
+        to: to,
+        subject: resend ? "Verify your email address" : "Thank you for signing up at Jalapeno!",
+        "html": resend ? html2 : html,
+        "text": resend ? html2 : html
+    }
+
+    let transporter = nodemailer.createTransport(config);
+
+    transporter.sendMail(email, function (err, info) {
+        if (err)
+            console.log(err);
+        console.log(info);
+    });
+}
 
 module.exports = {
     router: router
