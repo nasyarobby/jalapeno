@@ -5,7 +5,7 @@ This part explains the API server (Backend)
 - NodeJS
 - KnexJS installed globally
 - Optional: MySQL
-- 
+
 ### Installing KnexJs
 ```
 npm i knex -g
@@ -19,6 +19,7 @@ cd jalapeno
 
 Copy ```.env.example``` to ```.env``` and update the content to match your machine configuration.
 
+Run the following command
 ```
 npm i
 knex migrate:up
