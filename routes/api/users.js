@@ -10,12 +10,12 @@ const {
 var passport = require("./../../libs/passport_local");
 const jwt = require('jsonwebtoken');
 
-router.get("/users/:id", getUserById)
-router.get('/users', getAllUsers)
-router.put('/users/register', registerNewUser)
-router.post("/users/verify-email", verifyEmail)
-router.post("/users/login", authenticateUser)
-router.post("/users/verify-email/resend-code", resendEmailVerificationCode)
+router.get("/:id", getUserById)
+router.get('/', getAllUsers)
+router.put('/register', registerNewUser)
+router.post("/verify-email", verifyEmail)
+router.post("/login", authenticateUser)
+router.post("/verify-email/resend-code", resendEmailVerificationCode)
 
 function getUserById(req, res) {
     User
