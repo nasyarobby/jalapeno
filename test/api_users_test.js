@@ -80,6 +80,7 @@ describe("API Routes", function () {
             .put("/api/users/register")
             .send(validUser)
             .end((err, res) => {
+                console.log(res)
                 res.should.have.status(200);
                 res.body.status.should.equal('success');
                 res.should.be.json;
@@ -118,6 +119,7 @@ describe("API Routes", function () {
             .put("/api/users/register")
             .send(user)
             .end((err, res) => {
+                console.log(res)
                 res.should.have.status(200);
                 res.should.be.json;
                 res.body.data.username[0].message.should.equal("username is already registered.")
