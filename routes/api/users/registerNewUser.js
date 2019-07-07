@@ -7,10 +7,7 @@ const {
     ValidationError
 } = require('objection');
 
-function registerNewUser(req, res) {
-    let date = new Date();
-    date.setDate(date.getDate() + 1);
-
+async function registerNewUser(req, res) {
     let errors = {
         username: [],
         password: [],
@@ -19,94 +16,143 @@ function registerNewUser(req, res) {
     }
 
     let email = req.body.email ? req.body.email.trim() : req.body.email;
-    let promises = [];
+    let username = req.body.username ? req.body.username.trim() : req.body.username;
+    let name = req.body.name ? req.body.name.trim() : req.body.name;
+    let password = req.body.password;
+
+    errors.email = await validateEmail(email);
+    errors.username = await validateUsername(username)
+    errors.name = await validateName(name);
+    errors.password = await validatePassword(password);
+
+    let newUser = await createNewUser(errors, {
+        email: email,
+        username: username,
+        name: name,
+        password: password
+    }, req, res);
+    if (newUser) {
+        sendVerificationCode(username, email, name, newUser.verification_code);
+        delete newUser.password;
+        delete newUser.verification_code;
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSend.setSuccess(newUser).send());
+    }
+}
+
+/**ASYNC VALIDATION FUNCTIONS */
+
+async function validateEmail(email) {
+    let errors = []
 
     if (!email) {
-        errors.email.push({
+        errors.push({
             message: "email is required."
         })
     } else if (!/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email.toLowerCase())) {
-        errors.email.push({
+        errors.push({
             message: "email is invalid."
         })
     } else {
-        promises.push(User.query().where('email', email).then(user => {
-            if (user.length > 0) {
-                errors.email.push({
-                    message: "email is already registered."
-                })
-            }
-        }))
+        let user = await getUserByEmail(email);
+
+        if (user.length > 0) {
+            errors.push({
+                message: "email is already registered."
+            })
+        }
     }
 
-    let username = req.body.username ? req.body.username.trim() : req.body.username;
+    return errors;
+}
+
+async function validateUsername(username) {
+    let errors = [];
 
     if (!username) {
-        errors.username.push({
+        errors.push({
             message: "username is required."
         })
     } else if (!/^[a-zA-Z0-9_]*$/i.test(username)) {
-        errors.username.push({
+        errors.push({
             message: "username is invalid."
         })
     } else {
-        promises.push(User.query().where('username', username).then(user => {
-            if (user.length > 0) {
-                errors.username.push({
-                    message: "username is already registered."
-                })
-            }
-        }))
+        let user = await getUserByUsername(username)
+        if (user.length > 0) {
+            errors.push({
+                message: "username is already registered."
+            })
+        }
     }
+    return errors;
+}
 
-    let name = req.body.name ? req.body.name.trim() : req.body.name;
+async function validateName(name) {
+    let errors = []
     if (!name) {
-        errors.name.push({
+        errors.push({
             message: "name is required."
         })
     }
-    let password = req.body.password;
 
+    return errors;
+}
+
+async function validatePassword(password) {
+    let errors = []
     if (!password) {
-        errors.password.push({
+        errors.push({
             message: "password is required."
         })
     } else if (password[0] == " " || password[password.length - 1] == "") {
-        errors.password.push({
+        errors.push({
             message: "Password cannot start/end with space."
         })
     } else {
         password = hash(password);
     }
+    return errors;
+}
 
-    Promise.all(promises)
-        .then(() => {
-            return User.query()
-                .runBefore(() => {
-                    if (errors.email.length > 0 || errors.username.length > 0 || errors.password.length > 0 || errors.name.length > 0) {
-                        throw new ValidationError({
-                            message: 'Validation Error',
-                            type: 'ValidationError',
-                            data: errors
-                        })
-                    }
+/**ASYNC DB OPERATIONS */
+
+async function getUserByEmail(email) {
+    return User.query().where('email', email)
+}
+
+async function getUserByUsername(username) {
+    return User.query().where('username', username)
+}
+
+async function createNewUser(errors, data, req, res) {
+    let {
+        email,
+        username,
+        password,
+        name
+    } = data;
+
+    let date = new Date();
+    date.setDate(date.getDate() + 1);
+
+    return User.query()
+        .runBefore(() => {
+            if (errors.email.length > 0 || errors.username.length > 0 || errors.password.length > 0 || errors.name.length > 0) {
+                throw new ValidationError({
+                    message: 'Validation Error',
+                    type: 'ValidationError',
+                    data: errors
                 })
-                .insertAndFetch({
-                    email: email,
-                    username: username,
-                    password: password,
-                    name: name,
-                    verification_code: hashCode(date.toString()) + hashCode(username + date.toString()) + hashCode(email + date.toString()) + hashCode(name + date.toString()),
-                    verification_code_expired_at: date
-                })
+            }
         })
-        .then(users => {
-            //send verification code
-            sendVerificationCode(username, email, name, users.verification_code);
-            delete users.password;
-            delete users.verification_code;
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSend.setSuccess(users).send());
+        .insertAndFetch({
+            email: email,
+            username: username,
+            password: password,
+            name: name,
+            verification_code: hashCode(date.toString()) + hashCode(username + date.toString()) + hashCode(email + date.toString()) + hashCode(name + date.toString()),
+            verification_code_expired_at: date
         })
         .catch(error => {
             if (error.name == "ValidationError") {
@@ -119,7 +165,6 @@ function registerNewUser(req, res) {
                 console.log(error);
                 res.send("Error occured.");
             }
-
         })
 }
 
