@@ -1,71 +1,43 @@
 // Update with your config settings.
-require("dotenv").config()
 
 module.exports = {
 
   development: {
-    client: 'mysql',
-    connection: {
-      host: process.env.DEV_DB_HOST,
-      database: process.env.DEV_DB_NAME,
-      user: process.env.DEV_DB_USER,
-      password: process.env.DEV_DB_PASSWORD,
-    },
-    migrations: {
-      tableName: 'knex_migrations',
-      directory: __dirname + '/db/migrations/development'
-    },
-    seeds: {
-      directory: __dirname + '/db/seeds/development'
-    }
-  },
-
-  sqlite: {
     client: 'sqlite3',
-    useNullAsDefault: true,
     connection: {
-      filename: "./database.db"
-    },
-    migrations: {
-      tableName: 'knex_migrations',
-      directory: __dirname + '/db/migrations/development'
-    },
-    seeds: {
-      directory: __dirname + '/db/seeds/development'
+      filename: './dev.sqlite3'
     }
   },
 
-
-  test: {
-    client: 'mysql',
+  staging: {
+    client: 'postgresql',
     connection: {
-      host: process.env.TEST_DB_HOST,
-      database: process.env.TEST_DB_NAME,
-      user: process.env.TEST_DB_USER,
-      password: process.env.TEST_DB_PASSWORD,
+      database: 'my_db',
+      user:     'username',
+      password: 'password'
+    },
+    pool: {
+      min: 2,
+      max: 10
     },
     migrations: {
-      tableName: 'knex_migrations',
-      directory: __dirname + '/db/migrations/testing'
-    },
-    seeds: {
-      directory: __dirname + '/db/seeds/testing'
+      tableName: 'knex_migrations'
     }
   },
 
   production: {
-    client: 'mysql',
+    client: 'postgresql',
     connection: {
-      host: process.env.DEV_DB_HOST,
-      database: process.env.DEV_DB_NAME,
-      user: process.env.DEV_DB_USER,
-      password: process.env.DEV_DB_PASSWORD,
+      database: 'my_db',
+      user:     'username',
+      password: 'password'
+    },
+    pool: {
+      min: 2,
+      max: 10
     },
     migrations: {
       tableName: 'knex_migrations'
-    },
-    seeds: {
-      directory: __dirname + '/db/seeds/production'
     }
   }
 
