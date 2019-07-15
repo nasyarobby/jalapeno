@@ -8,6 +8,8 @@ exports.up = function(knex, Promise) {
         t.string('cookTime')
         t.integer('portions')
         t.string('notes')
+        t.integer('ingredient_id')
+        t.integer('user_id')
         t.foreign('ingredient_id').references('id').inTable('ingredients')
         t.foreign('user_id').references('id').inTable('users')
     })

@@ -1,6 +1,8 @@
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('cookbookrecipe', t => {
         t.increments('id')
+        t.integer('cookbook_id')
+        t.integer('recipe_id')
         t.foreign('cookbook_id').references('id').inTable('cookbooks')
         t.foreign('recipe_id').references('id').inTable('recipes')
     })

@@ -6,14 +6,14 @@ exports.seed = function (knex, Promise) {
     .then(function () {
         // Inserts seed entries
         return knex('cookbooks').insert([{
+            user_id: 1,
             cookbook_name: "Spend with Pennies",
-            category: "Salads",
-            created_at: new Date.now()
+            category: "Salads"
         },
         {
+            user_id: 2,
             cookbook_name: "Cooking Classy",
-            category: "Drinks",
-            created_at: new Date.now()
+            category: "Drinks"
         }
     ]);
 });
