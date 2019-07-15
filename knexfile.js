@@ -1,43 +1,71 @@
 // Update with your config settings.
+require("dotenv").config()
 
 module.exports = {
 
   development: {
-    client: 'sqlite3',
+    client: 'mysql',
     connection: {
-      filename: './dev.sqlite3'
+      host: process.env.DEV_DB_HOST,
+      database: process.env.DEV_DB_NAME,
+      user: process.env.DEV_DB_USER,
+      password: process.env.DEV_DB_PASSWORD,
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: __dirname + '/db/migrations/development'
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds/development'
     }
   },
 
-  staging: {
-    client: 'postgresql',
+  sqlite: {
+    client: 'sqlite3',
+    useNullAsDefault: true,
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
+      filename: "./database.db"
     },
     migrations: {
-      tableName: 'knex_migrations'
+      tableName: 'knex_migrations',
+      directory: __dirname + '/db/migrations/development'
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds/development'
+    }
+  },
+
+
+  test: {
+    client: 'mysql',
+    connection: {
+      host: process.env.TEST_DB_HOST,
+      database: process.env.TEST_DB_NAME,
+      user: process.env.TEST_DB_USER,
+      password: process.env.TEST_DB_PASSWORD,
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: __dirname + '/db/migrations/testing'
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds/testing'
     }
   },
 
   production: {
-    client: 'postgresql',
+    client: 'mysql',
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
+      host: process.env.DEV_DB_HOST,
+      database: process.env.DEV_DB_NAME,
+      user: process.env.DEV_DB_USER,
+      password: process.env.DEV_DB_PASSWORD,
     },
     migrations: {
       tableName: 'knex_migrations'
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds/production'
     }
   }
 
