@@ -4,8 +4,6 @@ exports.up = function(knex, Promise) {
         t.foreign('user_id').references('id').inTable('users')
         t.string('cookbook_name')
         t.string('category')
-        t.timestamp('created_at')
-        t.timestamp('updated_at').nullable()
         t.timestamps(true, true)
     })
 };
