@@ -22,6 +22,7 @@ Copy ```.env.example``` to ```.env``` and update the content to match your machi
 Run the following command
 ```
 npm i
-knex migrate:up
+knex migrate:latest
+knex seed:run
 npm run start
 ```
