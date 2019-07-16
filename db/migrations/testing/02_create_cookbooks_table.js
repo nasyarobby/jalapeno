@@ -1,7 +1,7 @@
-exports.up = function(knex, Promise) {
+exports.up = function (knex, Promise) {
     return knex.schema.createTable('cookbooks', t => {
         t.increments('id')
-        t.integer('user_id')
+        t.integer('user_id').unsigned();
         t.foreign('user_id').references('id').inTable('users')
         t.string('cookbook_name')
         t.string('category')
@@ -9,6 +9,6 @@ exports.up = function(knex, Promise) {
     })
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex, Promise) {
     return knex.schema.dropTable('cookbooks')
 };
