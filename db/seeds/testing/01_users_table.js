@@ -1,4 +1,4 @@
-let hash = require("./../../../libs/hash").hash
+let hash = require("../../../libs/hash").hash
 let date = new Date();
 date.setDate(date.getDate() + 1)
 exports.seed = function (knex, Promise) {

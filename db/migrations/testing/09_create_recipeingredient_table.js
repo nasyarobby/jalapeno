@@ -5,6 +5,8 @@ exports.up = function(knex, Promise) {
         t.integer('ingredient_id')
         t.foreign('recipe_id').references('id').inTable('recipes')
         t.foreign('ingredient_id').references('id').inTable('ingredients')
+        t.integer('quantity')
+        t.string('unit')
     })
 };
 
