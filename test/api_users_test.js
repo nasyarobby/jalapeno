@@ -126,6 +126,38 @@ describe("API Routes", function () {
             })
     })
 
+    it("should reject if username's length is less than 5 characters", function (done) {
+        let user = Object.assign({}, validUser);
+        user.username = "alic";
+        agent
+            .put("/api/users/register")
+            .send(user)
+            .end((err, res) => {
+                user.username.length.should.be.lessThan(5);
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.data.username[0].message.should.equal("username is too short (min. 5 characters).")
+                res.body.status.should.equal('fail');
+                done();
+            })
+    })
+
+    it("should reject if username's length is greater than 25 characters", function (done) {
+        let user = Object.assign({}, validUser);
+        user.username = "alicealicealicealicealice1"; //26 chars
+        agent
+            .put("/api/users/register")
+            .send(user)
+            .end((err, res) => {
+                user.username.length.should.be.greaterThan(25);
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.data.username[0].message.should.equal("username is too long (max. 25 characters).")
+                res.body.status.should.equal('fail');
+                done();
+            })
+    })
+
     it("should reject if email exists", function (done) {
         let user = Object.assign({}, validUser);
         user.email = "alice@gmail.com";
@@ -244,6 +276,22 @@ describe("API Routes", function () {
                 res.should.be.json;
                 res.body.status.should.equal('fail');
                 res.body.data.password[0].message.should.equal("Password cannot start/end with space.")
+                done();
+            })
+    })
+
+    it("should reject if password length is less than 6", function (done) {
+        let user = Object.assign({}, validUser);
+        user.password = "12345";
+        agent
+            .put("/api/users/register")
+            .send(user)
+            .end((err, res) => {
+                res.should.have.status(200);
+                user.password.length.should.be.lessThan(6);
+                res.should.be.json;
+                res.body.status.should.equal('fail');
+                res.body.data.password[0].message.should.equal("Password is too short (min 6 characters).")
                 done();
             })
     })
