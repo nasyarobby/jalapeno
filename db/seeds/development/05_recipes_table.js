@@ -16,7 +16,8 @@ exports.seed = function (knex, Promise) {
                 pepper, and fresh herbs to taste.",
                 preparationTime: "10 min",
                 cookTime: "0 min",
-                portions: 4
+                portions: 4,
+                notes: "Great to put in the fridge!"
             },
             {
                 id: 2,
@@ -34,6 +35,7 @@ exports.seed = function (knex, Promise) {
                 preparationTime: "10 min",
                 cookTime: "5 min",
                 portions: 10,
+                notes: "Best during a hot summer day!"
             }
             ]);
         });
