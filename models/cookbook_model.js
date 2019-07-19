@@ -9,12 +9,12 @@ class Cookbook extends Model {
     }
 
     static get relationMappings() {
-        const User = require("./user_model")
+        const Recipe = require("./recipe_model")
 
         return {
             recipes: {
                 relation: Model.ManyToManyRelation,
-                modelClass: Cookbook,
+                modelClass: Recipe,
                 join: {
                     from: 'recipes.id',
                     through: {
