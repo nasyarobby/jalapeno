@@ -319,8 +319,7 @@ exports.seed = function (knex, Promise) {
                 portions: 12,
                 notes: "Per Serving: 147 calories; 2.8 g fat; 25.9 g carbohydrates; 4.1 g protein;\
 		16 mg cholesterol; 298 mg sodium."
-            },
-
+            }
             ]);
         });
 }
