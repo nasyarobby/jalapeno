@@ -26,79 +26,79 @@ exports.seed = function (knex, Promise) {
         },
         {
             id: 4,
-            user_id: 4,
+            user_id: 1,
             cookbook_name: "Redcipes",
             category: "Salads"
         },
         {
             id: 5,
-            user_id: 5,
+            user_id: 2,
             cookbook_name: "Allrecipes",
             category: "Salads"
         },
         {
             id: 6,
-            user_id: 6,
+            user_id: 3,
             cookbook_name: "Allrecipes",
             category: "Breakfast"
         },
         {
             id: 7,
-            user_id: 7,
+            user_id: 1,
             cookbook_name: "Tasty",
             category: "Breakfast"
         },
         {
             id: 8,
-            user_id: 8,
+            user_id: 2,
             cookbook_name: "Allrecipes",
             category: "Desserts"
         },
         {
             id: 9,
-            user_id: 9,
+            user_id: 3,
             cookbook_name: "Allrecipes",
             category: "Desserts"
         },
         {
             id: 10,
-            user_id: 10,
+            user_id: 1,
             cookbook_name: "Redcipes",
             category: "Desserts"
         },
         {
             id: 11,
-            user_id: 11,
+            user_id: 2,
             cookbook_name: "Allrecipes",
             category: "Appetizer"
         },
         {
             id: 12,
-            user_id: 12,
+            user_id: 3,
             cookbook_name: "Allrecipes",
             category: "Italian"
         },
         {
             id: 13,
-            user_id: 13,
+            user_id: 1,
             cookbook_name: "Tasty",
             category: "Sandwich"
         },
         {
             id: 14,
-            user_id: 14,
+            user_id: 2,
             cookbook_name: "Allrecipes",
             category: "Soups"
         },
         {
             id: 15,
-            user_id: 15,
+            user_id: 3,
             cookbook_name: "Redcipes",
             category: "Soups"
         },
         {
             id: 16,
-            user_id: 16,
+            user_id: 1,
             cookbook_name: "Allrecipes",
             category: "Bread"
         }
