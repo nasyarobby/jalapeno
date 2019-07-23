@@ -20,7 +20,8 @@ module.exports = {
     }
   },
 
-  sqlite: {
+  test: {
+  // sqlite: {
     client: 'sqlite3',
     useNullAsDefault: true,
     connection: {
@@ -28,30 +29,32 @@ module.exports = {
     },
     migrations: {
       tableName: 'knex_migrations',
-      directory: __dirname + '/db/migrations/development'
-    },
-    seeds: {
-      directory: __dirname + '/db/seeds/development'
-    }
-  },
-
-
-  test: {
-    client: 'mysql',
-    connection: {
-      host: process.env.TEST_DB_HOST,
-      database: process.env.TEST_DB_NAME,
-      user: process.env.TEST_DB_USER,
-      password: process.env.TEST_DB_PASSWORD,
-    },
-    migrations: {
-      tableName: 'knex_migrations',
       directory: __dirname + '/db/migrations/testing'
+      // directory: __dirname + '/db/migrations/development'
     },
     seeds: {
       directory: __dirname + '/db/seeds/testing'
+      // directory: __dirname + '/db/seeds/development'
     }
   },
+
+
+  // test: {
+  //   client: 'mysql',
+  //   connection: {
+  //     host: process.env.TEST_DB_HOST,
+  //     database: process.env.TEST_DB_NAME,
+  //     user: process.env.TEST_DB_USER,
+  //     password: process.env.TEST_DB_PASSWORD,
+  //   },
+  //   migrations: {
+  //     tableName: 'knex_migrations',
+  //     directory: __dirname + '/db/migrations/testing'
+  //   },
+  //   seeds: {
+  //     directory: __dirname + '/db/seeds/testing'
+  //   }
+  // },
 
   production: {
     client: 'mysql',
