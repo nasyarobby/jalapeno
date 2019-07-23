@@ -39,13 +39,20 @@ describe("API Routes", function () {
             .then(() => {
                 done();
             })
+            .catch((err) => {
+                done(err)
+            })
     })
 
     afterEach(function (done) {
         knex.migrate.rollback()
             .then(function () {
                 done();
-            });
+            })
+            .catch((err) => {
+                done(err)
+            })
+
     });
 
     it('should return list of existing users', function (done) {
