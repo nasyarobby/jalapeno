@@ -134,7 +134,7 @@ exports.seed = function (knex, Promise) {
                 unit: "tablespoon"
             },
             {
-                id: 17
+                id: 17,
                 recipe_id: 3,
                 ingredient_id: 6,
                 quantity: 1,
@@ -330,7 +330,7 @@ exports.seed = function (knex, Promise) {
                 recipe_id: 6,
                 ingredient_id: 27,
                 quantity: 1,
-                quantity_text: "1,
+                quantity_text: "1",
                 unit: "cup"
             },
             {
@@ -846,7 +846,7 @@ exports.seed = function (knex, Promise) {
                 unit: "slices"
             },
             {
-                id: 105,
+                id: 106,
                 recipe_id: 14,
                 ingredient_id: 47,
                 quantity: 1,
@@ -854,17 +854,9 @@ exports.seed = function (knex, Promise) {
                 unit: "pound"
             },
             {
-                id: 106,
-                recipe_id: 14,
-                ingredient_id: 20,
-                quantity: 1,
-                quantity_text: "1",
-                unit: "cup"
-            },
-            {
                 id: 107,
                 recipe_id: 14,
-                ingredient_id: 21,
+                ingredient_id: 20,
                 quantity: 1,
                 quantity_text: "1",
                 unit: "cup"
@@ -872,7 +864,7 @@ exports.seed = function (knex, Promise) {
             {
                 id: 108,
                 recipe_id: 14,
-                ingredient_id: 58,
+                ingredient_id: 21,
                 quantity: 1,
                 quantity_text: "1",
                 unit: "cup"
@@ -880,13 +872,21 @@ exports.seed = function (knex, Promise) {
             {
                 id: 109,
                 recipe_id: 14,
+                ingredient_id: 58,
+                quantity: 1,
+                quantity_text: "1",
+                unit: "cup"
+            },
+            {
+                id: 110,
+                recipe_id: 14,
                 ingredient_id: 44,
                 quantity: 2,
                 quantity_text: "2",
                 unit: "cloves"
             },
             {
-                id: 110,
+                id: 111,
                 recipe_id: 14,
                 ingredient_id: 13,
                 quantity: 14.5,
@@ -894,7 +894,7 @@ exports.seed = function (knex, Promise) {
                 unit: "ounce"
             },
             {
-                id: 111,
+                id: 112,
                 recipe_id: 14,
                 ingredient_id: 56,
                 quantity: 15,
@@ -902,7 +902,7 @@ exports.seed = function (knex, Promise) {
                 unit: "ounce"
             },
             {
-                id: 112,
+                id: 113,
                 recipe_id: 14,
                 ingredient_id: 59,
                 quantity: 19,
@@ -910,7 +910,7 @@ exports.seed = function (knex, Promise) {
                 unit: "ounce"
             },
             {
-                id: 113,
+                id: 114,
                 recipe_id: 14,
                 ingredient_id: 10,
                 quantity: 2,
@@ -918,7 +918,7 @@ exports.seed = function (knex, Promise) {
                 unit: "cups"
             },
             {
-                id: 114,
+                id: 115,
                 recipe_id: 14,
                 ingredient_id: 60,
                 quantity: 5,
@@ -926,7 +926,7 @@ exports.seed = function (knex, Promise) {
                 unit: "teaspoons"
             },
             {
-                id: 115,
+                id: 116,
                 recipe_id: 14,
                 ingredient_id: 51,
                 quantity: 1,
@@ -934,7 +934,7 @@ exports.seed = function (knex, Promise) {
                 unit: "tablespoon"
             },
             {
-                id: 116,
+                id: 117,
                 recipe_id: 14,
                 ingredient_id: 61,
                 quantity: 0.5,
@@ -942,7 +942,7 @@ exports.seed = function (knex, Promise) {
                 unit: "teaspoon"
             },
             {
-                id: 117,
+                id: 118,
                 recipe_id: 14,
                 ingredient_id: 15,
                 quantity: 0.5,
@@ -950,7 +950,7 @@ exports.seed = function (knex, Promise) {
                 unit: "teaspoon"
             },
             {
-                id: 118,
+                id: 119,
                 recipe_id: 14,
                 ingredient_id: 62,
                 quantity: 2,
@@ -958,7 +958,7 @@ exports.seed = function (knex, Promise) {
                 unit: "cups"
             },
             {
-                id: 119,
+                id: 120,
                 recipe_id: 14,
                 ingredient_id: 63,
                 quantity: 15.25,
@@ -966,7 +966,7 @@ exports.seed = function (knex, Promise) {
                 unit: "ounce"
             },
             {
-                id: 120,
+                id: 121,
                 recipe_id: 14,
                 ingredient_id: 64,
                 quantity: 15,
@@ -974,7 +974,7 @@ exports.seed = function (knex, Promise) {
                 unit: "ounce"
             },
             {
-                id: 121,
+                id: 122,
                 recipe_id: 14,
                 ingredient_id: 17,
                 quantity: 1,
@@ -982,7 +982,7 @@ exports.seed = function (knex, Promise) {
                 unit: "cup"
             },
             {
-                id: 122,
+                id: 123,
                 recipe_id: 15,
                 ingredient_id: 15,
                 quantity: 2,
@@ -990,7 +990,7 @@ exports.seed = function (knex, Promise) {
                 unit: "teaspoons"
             },
             {
-                id: 123,
+                id: 124,
                 recipe_id: 15,
                 ingredient_id: 65,
                 quantity: 4,
@@ -998,7 +998,7 @@ exports.seed = function (knex, Promise) {
                 unit: "each"
             },
             {
-                id: 124,
+                id: 125,
                 recipe_id: 15,
                 ingredient_id: 20,
                 quantity: 1,
@@ -1006,7 +1006,7 @@ exports.seed = function (knex, Promise) {
                 unit: "each"
             },
             {
-                id: 125,
+                id: 126,
                 recipe_id: 15,
                 ingredient_id: 44,
                 quantity: 3,
@@ -1014,7 +1014,7 @@ exports.seed = function (knex, Promise) {
                 unit: "gloves"
             },
             {
-                id: 126,
+                id: 127,
                 recipe_id: 15,
                 ingredient_id: 66,
                 quantity: 0.5,
@@ -1022,7 +1022,7 @@ exports.seed = function (knex, Promise) {
                 unit: "cup"
             },
             {
-                id: 127,
+                id: 128,
                 recipe_id: 15,
                 ingredient_id: 67,
                 quantity: 1,
@@ -1030,7 +1030,7 @@ exports.seed = function (knex, Promise) {
                 unit: "cup"
             },
             {
-                id: 128,
+                id: 129,
                 recipe_id: 15,
                 ingredient_id: 68,
                 quantity: 1,
@@ -1038,7 +1038,7 @@ exports.seed = function (knex, Promise) {
                 unit: "each"
             },
             {
-                id: 129,
+                id: 130,
                 recipe_id: 15,
                 ingredient_id: 51,
                 quantity: 0.5,
@@ -1046,7 +1046,7 @@ exports.seed = function (knex, Promise) {
                 unit: "cup"
             },
             {
-                id: 130,
+                id: 131,
                 recipe_id: 15,
                 ingredient_id: 69,
                 quantity: 3,
@@ -1054,7 +1054,7 @@ exports.seed = function (knex, Promise) {
                 unit: "cups"
             },
             {
-                id: 131,
+                id: 132,
                 recipe_id: 15,
                 ingredient_id: 70,
                 quantity: 15,
@@ -1062,7 +1062,7 @@ exports.seed = function (knex, Promise) {
                 unit: "ounce"
             },
             {
-                id: 132,
+                id: 133,
                 recipe_id: 15,
                 ingredient_id: 71,
                 quantity: 16,
@@ -1070,7 +1070,7 @@ exports.seed = function (knex, Promise) {
                 unit: "ounce"
             },
             {
-                id: 133,
+                id: 134,
                 recipe_id: 15,
                 ingredient_id: 72,
                 quantity: 1,
@@ -1078,7 +1078,7 @@ exports.seed = function (knex, Promise) {
                 unit: "cup"
             },
             {
-                id: 134,
+                id: 135,
                 recipe_id: 16,
                 ingredient_id: 33,
                 quantity: 3,
@@ -1086,7 +1086,7 @@ exports.seed = function (knex, Promise) {
                 unit: "cups"
             },
             {
-                id: 135,
+                id: 136,
                 recipe_id: 16,
                 ingredient_id: 9,
                 quantity: 1,
@@ -1094,7 +1094,7 @@ exports.seed = function (knex, Promise) {
                 unit: "tablespoon"
             },
             {
-                id: 136,
+                id: 137,
                 recipe_id: 16,
                 ingredient_id: 6,
                 quantity: 1.5,
@@ -1102,7 +1102,7 @@ exports.seed = function (knex, Promise) {
                 unit: "teaspoons"
             },
             {
-                id: 137,
+                id: 138,
                 recipe_id: 16,
                 ingredient_id: 10,
                 quantity: 1.125,
@@ -1110,7 +1110,7 @@ exports.seed = function (knex, Promise) {
                 unit: "cup"
             },
             {
-                id: 138,
+                id: 139,
                 recipe_id: 16,
                 ingredient_id: 4,
                 quantity: 1.5,
@@ -1118,7 +1118,7 @@ exports.seed = function (knex, Promise) {
                 unit: "tablespoons"
             },
             {
-                id: 139,
+                id: 140,
                 recipe_id: 16,
                 ingredient_id: 73,
                 quantity: 1.5,
@@ -1126,7 +1126,7 @@ exports.seed = function (knex, Promise) {
                 unit: "teaspoons"
             },
             {
-                id: 140,
+                id: 141,
                 recipe_id: 16,
                 ingredient_id: 16,
                 quantity: 1,
@@ -1134,15 +1134,15 @@ exports.seed = function (knex, Promise) {
                 unit: "each"
             },
             {
-                id: 141,
+                id: 142,
                 recipe_id: 16,
                 ingredient_id: 74,
                 quantity: 1,
                 quantity_text: "1",
-                unit: "tablespoon
+                unit: "tablespoon"
             },
             {
-                id: 142,
+                id: 143,
                 recipe_id: 16,
                 ingredient_id: 75,
                 quantity: 1,
