@@ -26,7 +26,7 @@ let validCredentialUnverifiedUser = {
     password: "secret"
 }
 
-describe("API Routes", function () {
+describe("User API Routes", function () {
 
     beforeEach(function (done) {
         knex.migrate.rollback()
