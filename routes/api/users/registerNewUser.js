@@ -16,7 +16,7 @@ async function registerNewUser(req, res) {
     }
 
     let email = req.body.email ? req.body.email.trim() : req.body.email;
-    let username = req.body.username ? req.body.username.trim() : req.body.username;
+    let username = req.body.username ? req.body.username.trim().toLowerCase() : req.body.username;
     let name = req.body.name ? req.body.name.trim() : req.body.name;
     let password = req.body.password;
 
@@ -77,6 +77,14 @@ async function validateUsername(username) {
         errors.push({
             message: "username is invalid."
         })
+    } else if (username.length < 5) {
+        errors.push({
+            message: "username is too short (min. 5 characters)."
+        })
+    } else if (username.length > 25) {
+        errors.push({
+            message: "username is too long (max. 25 characters)."
+        })
     } else {
         let user = await getUserByUsername(username)
         if (user.length > 0) {
@@ -108,6 +116,10 @@ async function validatePassword(password) {
     } else if (password[0] == " " || password[password.length - 1] == "") {
         errors.push({
             message: "Password cannot start/end with space."
+        })
+    } else if (password.length < 6) {
+        errors.push({
+            message: "Password is too short (min 6 characters)."
         })
     } else {
         password = hash(password);
