@@ -75,32 +75,64 @@ describe("Cookbook API Routes", function () {
         }
     }
     */
-    it("GET /api/cookbooks/ should return all cookbooks", function (done) {
-        agent
-            .get("/api/cookbooks/")
-            .end((err, res) => {
-                if (err)
-                    done(err);
+    context("GET /api/cookbooks/", function () {
+        it("should return all cookbooks", function (done) {
+            agent
+                .get("/api/cookbooks/")
+                .end((err, res) => {
+                    if (err)
+                        done(err);
 
-                res.should.have.status(200);
-                res.should.be.json;
-                res.data.cookbooks.should.be.an("array");
-                res.data.cookbooks.length.should.equals(16);
-                res.data.cookbooks[0].id.shoul.equals(16);
-                res.data.cookbooks[0].name.should.equals('AllRecipes');
-                res.data.cookbooks[0].category.should.equals('Bread');
-                //res.data.cookbooks[0].numOfRecipes.should.equals()
-                res.data.cookbooks[0].should.have.property("createdAt");
-                res.data.cookbooks[0].should.have.property("updatedAt");
-                res.data.cookbooks[0].owner.id.should.equal(1);
-                res.data.cookbooks[0].owner.name.should.equal("Alice Peace");
-                res.data.cookbooks[0].owner.name.should.not.have.property("password");
-                done();
-            })
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.data.cookbooks.should.be.an("array");
+                    res.data.cookbooks.length.should.equals(4);
+                    res.data.cookbooks[0].id.shoul.equals(4);
+                    res.data.cookbooks[0].name.should.equals('AllRecipes');
+                    res.data.cookbooks[0].category.should.equals('Bread');
+                    res.data.cookbooks[0].numOfRecipes.should.equals(7)
+                    res.data.cookbooks[0].should.have.property("createdAt");
+                    res.data.cookbooks[0].should.have.property("updatedAt");
+                    res.data.cookbooks[0].owner.id.should.equal(1);
+                    res.data.cookbooks[0].owner.name.should.equal("Alice Peace");
+                    res.data.cookbooks[0].owner.name.should.not.have.property("password");
+                    done();
+                })
+        })
     })
 
-    it("should return recent cookbooks.")
-    it("should return cookbooks of a user")
-    it("should return list of recipes of a cookbok.")
-    it("should return content of a recipe")
+    context("GET /api/cookbooks/recent/:num", function () {
+
+        it("num=2 should return 2 recent cookbooks.", function (done) {
+            agent
+                .get("/api/cookbooks/recent/4")
+                .end((err, res) => {
+                    if (err)
+                        done(err);
+
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.data.cookbooks.should.be.an("array");
+                    res.data.cookbooks.length.should.equals(2);
+                    res.data.cookbooks[0].id.shoul.equals(4);
+                    res.data.cookbooks[1].id.shoul.equals(3);
+                    res.data.cookbooks[0].name.should.equals('AllRecipes');
+                    res.data.cookbooks[0].category.should.equals('Bread');
+                    res.data.cookbooks[0].numOfRecipes.should.equals(7)
+                    res.data.cookbooks[0].should.have.property("createdAt");
+                    res.data.cookbooks[0].should.have.property("updatedAt");
+                    res.data.cookbooks[0].owner.id.should.equal(1);
+                    res.data.cookbooks[0].owner.name.should.equal("Alice Peace");
+                    res.data.cookbooks[0].owner.name.should.not.have.property("password");
+                    done();
+                })
+        })
+
+        it("num=a should return error")
+        it("num= (empty) should return 4 recent cookbooks")
+    })
+
+    it("GET /cookbooks/user/:uid should return cookbooks of a user")
+    it("GET /cookbooks/id/:cid should return list of recipes of a cookbok.")
+    it("GET /recipe/:rid should return content of a recipe")
 })
