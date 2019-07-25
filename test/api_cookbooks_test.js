@@ -99,7 +99,31 @@ describe("Cookbook API Routes", function () {
             })
     })
 
-    it("should return recent cookbooks.")
+    it("GET /api/cookbooks/recent/4 should return 4 recent cookbooks.", function (done) {
+        agent
+            .get("/api/cookbooks/recent/4")
+            .end((err, res) => {
+                if (err)
+                    done(err);
+
+                res.should.have.status(200);
+                res.should.be.json;
+                res.data.cookbooks.should.be.an("array");
+                res.data.cookbooks.length.should.equals(4);
+                res.data.cookbooks[0].id.shoul.equals(16);
+                res.data.cookbooks[3].id.shoul.equals(13);
+                res.data.cookbooks[0].name.should.equals('AllRecipes');
+                res.data.cookbooks[0].category.should.equals('Bread');
+                //res.data.cookbooks[0].numOfRecipes.should.equals()
+                res.data.cookbooks[0].should.have.property("createdAt");
+                res.data.cookbooks[0].should.have.property("updatedAt");
+                res.data.cookbooks[0].owner.id.should.equal(1);
+                res.data.cookbooks[0].owner.name.should.equal("Alice Peace");
+                res.data.cookbooks[0].owner.name.should.not.have.property("password");
+                done();
+            })
+    })
+
     it("should return cookbooks of a user")
     it("should return list of recipes of a cookbok.")
     it("should return content of a recipe")
