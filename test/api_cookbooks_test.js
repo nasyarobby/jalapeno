@@ -81,25 +81,32 @@ describe("Cookbook API Routes", function () {
             .end((err, res) => {
                 if (err)
                     done(err);
-
                 res.should.have.status(200);
                 res.should.be.json;
-                res.data.cookbooks.should.be.an("array");
-                res.data.cookbooks.length.should.equals(16);
-                res.data.cookbooks[0].id.shoul.equals(16);
-                res.data.cookbooks[0].name.should.equals('AllRecipes');
-                res.data.cookbooks[0].category.should.equals('Bread');
+                res.body.data.should.be.an("array");
+                res.body.data.length.should.equals(4);
+                res.body.data[0].id.should.equals(1);
+                res.body.data[0].cookbook_name.should.equals('Watching My Figure');
+                res.body.data[0].category.should.equals('Healthy');
                 //res.data.cookbooks[0].numOfRecipes.should.equals()
-                res.data.cookbooks[0].should.have.property("createdAt");
-                res.data.cookbooks[0].should.have.property("updatedAt");
-                res.data.cookbooks[0].owner.id.should.equal(1);
-                res.data.cookbooks[0].owner.name.should.equal("Alice Peace");
-                res.data.cookbooks[0].owner.name.should.not.have.property("password");
+                res.body.data[0].should.have.property("created_at");
+                res.body.data[0].should.have.property("updated_at");
+                res.body.data[0].owner.id.should.equal(1);
+                res.body.data[0].owner.name.should.equal("Alice Peace");
+                res.body.data[0].owner.name.should.not.have.property("password");
                 done();
             })
     })
 
-    it("should return recent cookbooks.")
+    it("should return recent cookbooks.", function (done) {
+        agent
+            .get("/api/cookbooks/recent/4")
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.data
+            })
+    })
     it("should return cookbooks of a user")
     it("should return list of recipes of a cookbok.")
     it("should return content of a recipe")

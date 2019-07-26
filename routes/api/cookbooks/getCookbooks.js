@@ -9,11 +9,8 @@ function getCookbooks(req, res) {
     Cookbook.query()
         .eager("owner") // https://vincit.github.io/objection.js/api/query-builder/eager-methods.html#eager
         .then(cookbooks => {
-
-            console.log(cookbooks);
-
             res.setHeader('Content-Type', 'application/json');
-            res.send(JSend.setSuccess({}).send());
+            res.send(JSend.setSuccess(cookbooks).send());
         })
 }
 
