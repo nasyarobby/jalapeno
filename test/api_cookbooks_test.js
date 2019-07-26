@@ -163,6 +163,44 @@ describe("Cookbook API Routes", function () {
         })
     })
 
-    it("GET /cookbooks/id/:cid should return list of recipes of a cookbok.")
+    context("GET /cookbooks/id/:cid", function () {
+        it("cid=4 should return list of recipes of a cookbok with id 4", function (done) {
+            agent
+                .get("/api/cookbooks/id/4")
+                .end((err, res) => {
+                    if (err)
+                        done(err);
+
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.data.id.should.equal(4);
+                    res.data.name.should.equals("A Taste of the World");
+                    res.data.should.have.property("category");
+                    res.data.should.have.property("createdAt");
+                    res.data.should.have.property("updatedAt");
+
+                    res.data.recipes.should.be.an("array");
+                    res.data.recipes.length.should.equal(7);
+
+                    res.data.recipes[0].should.have.property("id");
+                    res.data.recipes[0].should.have.property("name");
+                    res.data.recipes[0].should.have.property("description");
+                    res.data.recipes[0].should.have.property("directions");
+                    res.data.recipes[0].should.have.property("preparationTime");
+                    res.data.recipes[0].should.have.property("cookTime");
+                    res.data.recipes[0].should.have.property("portions");
+                    res.data.recipes[0].should.have.property("notes");
+                    res.data.recipes[0].categories.should.be.an('array');
+                    res.data.recipes[0].ingredients.should.be.an('array');
+                    // not gonna test the content of the ingredients
+                    res.data.owner.id.should.equal(1);
+                    res.data.owner.name.should.equal("Alice Peace");
+                    res.data.owner.name.should.not.have.property("password");
+
+                    done();
+                })
+        })
+    })
+
     it("GET /recipe/:rid should return content of a recipe")
 })
