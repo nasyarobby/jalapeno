@@ -88,8 +88,8 @@ describe("Cookbook API Routes", function () {
                     res.data.cookbooks.should.be.an("array");
                     res.data.cookbooks.length.should.equals(4);
                     res.data.cookbooks[0].id.shoul.equals(4);
-                    res.data.cookbooks[0].name.should.equals('AllRecipes');
-                    res.data.cookbooks[0].category.should.equals('Bread');
+                    res.data.cookbooks[0].name.should.equals('A Taste of the World');
+                    res.data.cookbooks[0].category.should.equals('International');
                     res.data.cookbooks[0].numOfRecipes.should.equals(7)
                     res.data.cookbooks[0].should.have.property("createdAt");
                     res.data.cookbooks[0].should.have.property("updatedAt");
@@ -116,8 +116,8 @@ describe("Cookbook API Routes", function () {
                     res.data.cookbooks.length.should.equals(2);
                     res.data.cookbooks[0].id.shoul.equals(4);
                     res.data.cookbooks[1].id.shoul.equals(3);
-                    res.data.cookbooks[0].name.should.equals('AllRecipes');
-                    res.data.cookbooks[0].category.should.equals('Bread');
+                    res.data.cookbooks[0].name.should.equals('A Taste of the World');
+                    res.data.cookbooks[0].category.should.equals('International');
                     res.data.cookbooks[0].numOfRecipes.should.equals(7)
                     res.data.cookbooks[0].should.have.property("createdAt");
                     res.data.cookbooks[0].should.have.property("updatedAt");
