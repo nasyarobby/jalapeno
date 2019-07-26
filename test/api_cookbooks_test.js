@@ -75,12 +75,13 @@ describe("Cookbook API Routes", function () {
         }
     }
     */
-    it("GET /api/cookbooks/ should return all cookbooks", function (done) {
-        agent
-            .get("/api/cookbooks/")
-            .end((err, res) => {
-                if (err)
-                    done(err);
+    context("GET /api/cookbooks/", function () {
+        it("should return all cookbooks", function (done) {
+            agent
+                .get("/api/cookbooks/")
+                .end((err, res) => {
+                    if (err)
+                        done(err);
 
                     res.should.have.status(200);
                     res.should.be.json;
@@ -99,7 +100,6 @@ describe("Cookbook API Routes", function () {
                 })
         })
     })
-
     context("GET /api/cookbooks/recent/:num", function () {
 
         it("num=2 should return 2 recent cookbooks.", function (done) {
