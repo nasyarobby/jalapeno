@@ -107,6 +107,7 @@ describe("Cookbook API Routes", function () {
                 .end((err, res) => {
                     if (err)
                         done(err);
+
                     res.should.have.status(200);
                     res.should.be.json;
                     res.body.data.cookbooks.should.be.an("array");
@@ -126,30 +127,7 @@ describe("Cookbook API Routes", function () {
         })
 
         it("num=a should return error")
-
-        it("num= (empty) should return 4 recent cookbooks", function (done) {
-            agent
-                .get("/api/cookbooks/recent/")
-                .end((err, res) => {
-                    if (err)
-                        done(err);
-                    res.should.have.status(200);
-                    res.should.be.json;
-                    res.body.data.cookbooks.should.be.an("array");
-                    res.body.data.cookbooks.length.should.equals(4);
-                    res.body.data.cookbooks[0].id.should.equals(4);
-                    res.body.data.cookbooks[1].id.should.equals(3);
-                    res.body.data.cookbooks[0].name.should.equals('A Taste of the World');
-                    res.body.data.cookbooks[0].category.should.equals('International');
-                    //res.body.data.cookbooks[0].numOfRecipes.should.equals(7)
-                    res.body.data.cookbooks[0].should.have.property("createdAt");
-                    res.body.data.cookbooks[0].should.have.property("updatedAt");
-                    res.body.data.cookbooks[0].owner.id.should.equal(1);
-                    res.body.data.cookbooks[0].owner.name.should.equal("Alice Peace");
-                    res.body.data.cookbooks[0].owner.should.not.have.property("password");
-                    done();
-                })
-        })
+        it("num= (empty) should return 4 recent cookbooks")
     })
 
     context("GET /api/cookbooks/user/:uid", function () {

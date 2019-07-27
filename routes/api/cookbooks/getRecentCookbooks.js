@@ -21,7 +21,7 @@ function getRecentCookbooks(req, res) {
         num = req.params.num;
     }
     Cookbook.query()
-        .eager("[owner, recipes]") // https://vincit.github.io/objection.js/api/query-builder/eager-methods.html#eager
+        .eager("[owner, recipes]")
         .orderBy([{ column: 'updated_at', order: 'desc' }, { column: 'id', order: 'desc' }])
         .limit(num)
         .then(cookbooks => {
@@ -31,6 +31,9 @@ function getRecentCookbooks(req, res) {
                 row.createdAt = row.created_at;
                 row.updatedAt = row.updated_at;
                 row.numOfRecipes = row.recipes.length;
+                delete row.cookbook_name;
+                delete row.created_at;
+                delete row.updated_at;
             }
             console.log(cookbooks);
             res.setHeader('Content-Type', 'application/json');
