@@ -10,6 +10,7 @@ class Recipe extends Model {
     static get relationMappings() {
         const Cookbook = require("./cookbook_model")
         const Category = require("./category_model")
+        const Ingredient = require("./ingredient_model")
 
         return {
             cookbooks: {
@@ -35,7 +36,19 @@ class Recipe extends Model {
                     },
                     to: 'category.id'
                 }
-            }
+            },
+            ingredients: {
+                relation: Model.ManyToManyRelation,
+                modelClass: Ingredient,
+                join: {
+                    from: 'recipes.id',
+                    through: {
+                        from: 'recipeingredient.recipe_id',
+                        to: 'recipeingredient.ingredient_id'
+                    },
+                    to: 'ingredients.id'
+                }
+            },
         }
     }
 }
