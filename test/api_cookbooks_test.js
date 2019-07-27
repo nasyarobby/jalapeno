@@ -82,7 +82,6 @@ describe("Cookbook API Routes", function () {
                 .end((err, res) => {
                     if (err)
                         done(err);
-
                     res.should.have.status(200);
                     res.should.be.json;
                     res.body.data.cookbooks.should.be.an("array");
@@ -108,7 +107,6 @@ describe("Cookbook API Routes", function () {
                 .end((err, res) => {
                     if (err)
                         done(err);
-
                     res.should.have.status(200);
                     res.should.be.json;
                     res.body.data.cookbooks.should.be.an("array");
@@ -127,8 +125,40 @@ describe("Cookbook API Routes", function () {
                 })
         })
 
-        it("num=a should return error")
-        it("num= (empty) should return 4 recent cookbooks")
+        it("num=a should return error", function (done) {
+            agent
+                .get("/api/cookbooks/recent/a")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    //res.body.status.should.equal('fail');
+                    res.body.data.cookbooks[0].message.should.equal("number of recent cookbooks is invalid")
+                    done();
+                })
+        })
+        it("num= (empty) should return 4 recent cookbooks", function (done) {
+            agent
+                .get("/api/cookbooks/recent/")
+                .end((err, res) => {
+                    if (err)
+                        done(err);
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.body.data.cookbooks.should.be.an("array");
+                    res.body.data.cookbooks.length.should.equals(4);
+                    res.body.data.cookbooks[0].id.should.equals(4);
+                    res.body.data.cookbooks[1].id.should.equals(3);
+                    res.body.data.cookbooks[0].cookbook_name.should.equals('A Taste of the World');
+                    res.body.data.cookbooks[0].category.should.equals('International');
+                    //res.body.data.cookbooks[0].numOfRecipes.should.equals(7)
+                    res.body.data.cookbooks[0].should.have.property("created_at");
+                    res.body.data.cookbooks[0].should.have.property("updated_at");
+                    res.body.data.cookbooks[0].owner.id.should.equal(1);
+                    res.body.data.cookbooks[0].owner.name.should.equal("Alice Peace");
+                    res.body.data.cookbooks[0].owner.should.not.have.property("password");
+                    done();
+                })
+        })
     })
 
     context("GET /api/cookbooks/user/:uid", function () {
