@@ -1,10 +1,9 @@
+const Cookbook = require('../../../models/cookbook_model')
 const JSend = new(require("../../../libs/jsend"))();
 /* using ObjectionJS for data model
 https://vincit.github.io/objection.js/
 https://medium.com/@nicola.dallasen/express-knex-objection-painless-api-with-db-74512c484f0c
 */
-
-const Cookbook = require("./../../../models/cookbook_model");
 
 function getCookbooks(req, res) {
     Cookbook.query()
@@ -26,4 +25,4 @@ function getCookbooks(req, res) {
         })
 }
 
-module.exports = getCookbooks
+module.exports = getCookbooks;
