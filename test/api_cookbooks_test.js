@@ -215,7 +215,7 @@ describe("Cookbook API Routes", function () {
                     res.body.data.recipes.length.should.equal(7);
 
                     res.body.data.recipes[0].should.have.property("id");
-                    res.body.data.recipes[0].should.have.property("name");
+                    res.body.data.recipes[0].should.have.property("recipe_name");
                     res.body.data.recipes[0].should.have.property("description");
                     res.body.data.recipes[0].should.have.property("directions");
                     res.body.data.recipes[0].should.have.property("preparationTime");
