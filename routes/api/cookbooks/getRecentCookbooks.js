@@ -8,26 +8,29 @@ const Cookbook = require("./../../../models/cookbook_model");
 
 function getRecentCookbooks(req, res) {
     let errors = [];
-    var foo1
+    var num
     if (isNaN(req.params.num) || req.params.num < 0) {
         errors.push({
             message: "number of recent cookbooks is invalid"
         })
     }
     else if (!req.params.num) {
-        foo1 = 4;
+        num = 4;
     }
     else {
-        foo1 = req.params.num;
+        num = req.params.num;
     }
     Cookbook.query()
-        .eager("owner") // https://vincit.github.io/objection.js/api/query-builder/eager-methods.html#eager
+        .eager("[owner, recipes]") // https://vincit.github.io/objection.js/api/query-builder/eager-methods.html#eager
         .orderBy([{ column: 'updated_at', order: 'desc' }, { column: 'id', order: 'desc' }])
-        .limit(foo1)
+        .limit(num)
         .then(cookbooks => {
-            for (foo2 of cookbooks) {
-                delete foo2.owner.password;
-                //numOfRecipes: 
+            for (row of cookbooks) {
+                delete row.owner.password;
+                row.name = row.cookbook_name;
+                row.createdAt = row.created_at;
+                row.updatedAt = row.updated_at;
+                row.numOfRecipes = row.recipes.length;
             }
             console.log(cookbooks);
             res.setHeader('Content-Type', 'application/json');

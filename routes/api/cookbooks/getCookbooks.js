@@ -8,14 +8,16 @@ const Cookbook = require("./../../../models/cookbook_model");
 
 function getCookbooks(req, res) {
     Cookbook.query()
-        .eager("owner") // https://vincit.github.io/objection.js/api/query-builder/eager-methods.html#eager
+        .eager("[owner, recipes]") // https://vincit.github.io/objection.js/api/query-builder/eager-methods.html#eager
         .orderBy([{ column: 'updated_at', order: 'desc' }, { column: 'id', order: 'desc' }])
         .then(cookbooks => {
-            for (foo of cookbooks) {
-                delete foo.owner.password;
-                //numOfRecipes: 
+            for (row of cookbooks) {
+                delete row.owner.password;
+                row.name = row.cookbook_name;
+                row.createdAt = row.created_at;
+                row.updatedAt = row.updated_at;
+                row.numOfRecipes = row.recipes.length;
             }
-            console.log(cookbooks);
             res.setHeader('Content-Type', 'application/json');
             res.send(JSend.setSuccess({cookbooks}).send());
         })
