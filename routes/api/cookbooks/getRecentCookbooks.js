@@ -6,10 +6,11 @@ https://medium.com/@nicola.dallasen/express-knex-objection-painless-api-with-db-
 
 const Cookbook = require("./../../../models/cookbook_model");
 
-function getCookbooks(req, res) {
+function getRecentCookbooks(req, res) {
     Cookbook.query()
         .eager("owner") // https://vincit.github.io/objection.js/api/query-builder/eager-methods.html#eager
         .orderBy([{ column: 'updated_at', order: 'desc' }, { column: 'id', order: 'desc' }])
+        .limit(req.params.num)
         .then(cookbooks => {
             for (foo of cookbooks) {
                 delete foo.owner.password;
@@ -21,4 +22,4 @@ function getCookbooks(req, res) {
         })
 }
 
-module.exports = getCookbooks
+module.exports = getRecentCookbooks
