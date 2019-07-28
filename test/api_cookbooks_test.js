@@ -107,7 +107,6 @@ describe("Cookbook API Routes", function () {
                 .end((err, res) => {
                     if (err)
                         done(err);
-
                     res.should.have.status(200);
                     res.should.be.json;
                     res.body.data.cookbooks.should.be.an("array");
