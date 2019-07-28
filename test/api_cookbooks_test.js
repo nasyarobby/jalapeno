@@ -82,20 +82,19 @@ describe("Cookbook API Routes", function () {
                 .end((err, res) => {
                     if (err)
                         done(err);
-
                     res.should.have.status(200);
                     res.should.be.json;
-                    res.data.cookbooks.should.be.an("array");
-                    res.data.cookbooks.length.should.equals(4);
-                    res.data.cookbooks[0].id.shoul.equals(4);
-                    res.data.cookbooks[0].name.should.equals('A Taste of the World');
-                    res.data.cookbooks[0].category.should.equals('International');
-                    res.data.cookbooks[0].numOfRecipes.should.equals(7)
-                    res.data.cookbooks[0].should.have.property("createdAt");
-                    res.data.cookbooks[0].should.have.property("updatedAt");
-                    res.data.cookbooks[0].owner.id.should.equal(1);
-                    res.data.cookbooks[0].owner.name.should.equal("Alice Peace");
-                    res.data.cookbooks[0].owner.should.not.have.property("password");
+                    res.body.data.cookbooks.should.be.an("array");
+                    res.body.data.cookbooks.length.should.equals(4);
+                    res.body.data.cookbooks[0].id.should.equals(4);
+                    res.body.data.cookbooks[0].name.should.equals('A Taste of the World');
+                    res.body.data.cookbooks[0].category.should.equals('International');
+                    res.body.data.cookbooks[0].numOfRecipes.should.equals(7)
+                    res.body.data.cookbooks[0].should.have.property("createdAt");
+                    res.body.data.cookbooks[0].should.have.property("updatedAt");
+                    res.body.data.cookbooks[0].owner.id.should.equal(1);
+                    res.body.data.cookbooks[0].owner.name.should.equal("Alice Peace");
+                    res.body.data.cookbooks[0].owner.should.not.have.property("password");
                     done();
                 })
         })
@@ -104,25 +103,25 @@ describe("Cookbook API Routes", function () {
 
         it("num=2 should return 2 recent cookbooks.", function (done) {
             agent
-                .get("/api/cookbooks/recent/4")
+                .get("/api/cookbooks/recent/2")
                 .end((err, res) => {
                     if (err)
                         done(err);
 
                     res.should.have.status(200);
                     res.should.be.json;
-                    res.data.cookbooks.should.be.an("array");
-                    res.data.cookbooks.length.should.equals(2);
-                    res.data.cookbooks[0].id.shoul.equals(4);
-                    res.data.cookbooks[1].id.shoul.equals(3);
-                    res.data.cookbooks[0].name.should.equals('A Taste of the World');
-                    res.data.cookbooks[0].category.should.equals('International');
-                    res.data.cookbooks[0].numOfRecipes.should.equals(7)
-                    res.data.cookbooks[0].should.have.property("createdAt");
-                    res.data.cookbooks[0].should.have.property("updatedAt");
-                    res.data.cookbooks[0].owner.id.should.equal(1);
-                    res.data.cookbooks[0].owner.name.should.equal("Alice Peace");
-                    res.data.cookbooks[0].owner.should.not.have.property("password");
+                    res.body.data.cookbooks.should.be.an("array");
+                    res.body.data.cookbooks.length.should.equals(2);
+                    res.body.data.cookbooks[0].id.should.equals(4);
+                    res.body.data.cookbooks[1].id.should.equals(3);
+                    res.body.data.cookbooks[0].name.should.equals('A Taste of the World');
+                    res.body.data.cookbooks[0].category.should.equals('International');
+                    res.body.data.cookbooks[0].numOfRecipes.should.equals(7)
+                    res.body.data.cookbooks[0].should.have.property("createdAt");
+                    res.body.data.cookbooks[0].should.have.property("updatedAt");
+                    res.body.data.cookbooks[0].owner.id.should.equal(1);
+                    res.body.data.cookbooks[0].owner.name.should.equal("Alice Peace");
+                    res.body.data.cookbooks[0].owner.should.not.have.property("password");
                     done();
                 })
         })
@@ -175,22 +174,22 @@ describe("Cookbook API Routes", function () {
 
                     res.should.have.status(200);
                     res.should.be.json;
-                    res.data.cookbooks.should.be.an("array");
-                    res.data.cookbooks.length.should.equal(2);
-                    res.data.cookbooks[0].id.should.equal(4);
-                    res.data.cookbooks[0].numOfRecipes.should.equal(7);
-                    res.data.cookbooks[0].should.have.property("name");
-                    res.data.cookbooks[0].should.have.property("category");
-                    res.data.cookbooks[0].should.have.property("owner");
-                    res.data.cookbooks[0].should.have.property("createdAt");
-                    res.data.cookbooks[0].should.have.property("updatedAt");
-                    res.data.cookbooks[0].owner.id.should.equal(1);
-                    res.data.cookbooks[0].owner.name.should.equal("Alice Peace");
-                    res.data.cookbooks[0].owner.name.should.not.have.property("password");
-                    res.data.cookbooks[1].id.should.equal(1);
-                    res.data.owner.id.should.equals(1);
-                    res.data.owner.name.should.equals("Alice Peace")
-                    res.data.owner.should.not.have.property("password");
+                    res.body.data.cookbooks.should.be.an("array");
+                    res.body.data.cookbooks.length.should.equal(2);
+                    res.body.data.cookbooks[0].id.should.equal(4);
+                    res.body.data.cookbooks[0].numOfRecipes.should.equal(7);
+                    res.body.data.cookbooks[0].should.have.property("name");
+                    res.body.data.cookbooks[0].should.have.property("category");
+                    res.body.data.cookbooks[0].should.have.property("owner");
+                    res.body.data.cookbooks[0].should.have.property("createdAt");
+                    res.body.data.cookbooks[0].should.have.property("updatedAt");
+                    res.body.data.cookbooks[0].owner.id.should.equal(1);
+                    res.body.data.cookbooks[0].owner.name.should.equal("Alice Peace");
+                    res.body.data.cookbooks[0].owner.name.should.not.have.property("password");
+                    res.body.data.cookbooks[1].id.should.equal(1);
+                    res.body.data.owner.id.should.equals(1);
+                    res.body.data.owner.name.should.equals("Alice Peace")
+                    res.body.data.owner.should.not.have.property("password");
                     done();
                 })
         })
@@ -206,29 +205,29 @@ describe("Cookbook API Routes", function () {
 
                     res.should.have.status(200);
                     res.should.be.json;
-                    res.data.id.should.equal(4);
-                    res.data.name.should.equals("A Taste of the World");
-                    res.data.should.have.property("category");
-                    res.data.should.have.property("createdAt");
-                    res.data.should.have.property("updatedAt");
+                    res.body.data.id.should.equal(4);
+                    res.body.data.name.should.equals("A Taste of the World");
+                    res.body.data.should.have.property("category");
+                    res.body.data.should.have.property("createdAt");
+                    res.body.data.should.have.property("updatedAt");
 
-                    res.data.recipes.should.be.an("array");
-                    res.data.recipes.length.should.equal(7);
+                    res.body.data.recipes.should.be.an("array");
+                    res.body.data.recipes.length.should.equal(7);
 
-                    res.data.recipes[0].should.have.property("id");
-                    res.data.recipes[0].should.have.property("name");
-                    res.data.recipes[0].should.have.property("description");
-                    res.data.recipes[0].should.have.property("directions");
-                    res.data.recipes[0].should.have.property("preparationTime");
-                    res.data.recipes[0].should.have.property("cookTime");
-                    res.data.recipes[0].should.have.property("portions");
-                    res.data.recipes[0].should.have.property("notes");
-                    res.data.recipes[0].categories.should.be.an('array');
-                    res.data.recipes[0].ingredients.should.be.an('array');
+                    res.body.data.recipes[0].should.have.property("id");
+                    res.body.data.recipes[0].should.have.property("recipe_name");
+                    res.body.data.recipes[0].should.have.property("description");
+                    res.body.data.recipes[0].should.have.property("directions");
+                    res.body.data.recipes[0].should.have.property("preparationTime");
+                    res.body.data.recipes[0].should.have.property("cookTime");
+                    res.body.data.recipes[0].should.have.property("portions");
+                    res.body.data.recipes[0].should.have.property("notes");
+                    res.body.data.recipes[0].categories.should.be.an('array');
+                    res.body.data.recipes[0].ingredients.should.be.an('array');
                     // not gonna test the content of the ingredients
-                    res.data.owner.id.should.equal(1);
-                    res.data.owner.name.should.equal("Alice Peace");
-                    res.data.owner.should.not.have.property("password");
+                    res.body.data.owner.id.should.equal(1);
+                    res.body.data.owner.name.should.equal("Alice Peace");
+                    res.body.data.owner.should.not.have.property("password");
 
                     done();
                 })
@@ -238,50 +237,50 @@ describe("Cookbook API Routes", function () {
     context("GET /recipes/:rid", function () {
         it("rid=1 should return content of a recipe id 1", function (done) {
             agent
-                .get("/api/recipes/4")
+                .get("/api/recipes/1")
                 .end((err, res) => {
                     if (err)
                         done(err);
 
                     res.should.have.status(200);
                     res.should.be.json;
-                    res.data.should.have.property("id");
-                    res.data.id.should.equal(1);
-                    res.data.should.have.property("name");
-                    res.data.name.should.equals("Fresh Tomato Salad");
-                    res.data.should.have.property("description");
-                    res.data.should.have.property("directions");
-                    res.data.should.have.property("preparationTime");
-                    res.data.preparationTime.should.equal("10 min");
-                    res.data.should.have.property("cookTime");
-                    res.data.cookTime.should.equal("0 min");
-                    res.data.should.have.property("portions");
-                    res.data.portions.should.equal(4);
-                    res.data.should.have.property("notes");
-                    res.data.notes.should.equal("Great to put in the fridge!");
-                    res.data.categories.should.be.an('array');
-                    res.data.categories.length.should.equal(1);
-                    res.data.categories[1].name.should.equal("Salad");
+                    res.body.data.should.have.property("id");
+                    res.body.data.id.should.equal(1);
+                    res.body.data.should.have.property("name");
+                    res.body.data.name.should.equals("Fresh Tomato Salad");
+                    res.body.data.should.have.property("description");
+                    res.body.data.should.have.property("directions");
+                    res.body.data.should.have.property("preparationTime");
+                    res.body.data.preparationTime.should.equal("10 min");
+                    res.body.data.should.have.property("cookTime");
+                    res.body.data.cookTime.should.equal("0 min");
+                    res.body.data.should.have.property("portions");
+                    res.body.data.portions.should.equal(4);
+                    res.body.data.should.have.property("notes");
+                    res.body.data.notes.should.equal("Great to put in the fridge!");
+                    res.body.data.categories.should.be.an('array');
+                    res.body.data.categories.length.should.equal(1);
+                    res.body.data.categories[0].name.should.equal("Salad");
 
-                    res.data.ingredients.should.be.an('array');
-                    res.data.ingredients.length.should.equal(6);
-                    res.data.ingredients[0].should.have.property("quantity");
-                    res.data.ingredients[0].should.have.property("quantityText");
-                    res.data.ingredients[0].should.have.property("unit");
+                    res.body.data.ingredients.should.be.an('array');
+                    res.body.data.ingredients.length.should.equal(6);
+                    res.body.data.ingredients[0].should.have.property("quantity");
+                    res.body.data.ingredients[0].should.have.property("quantityText");
+                    res.body.data.ingredients[0].should.have.property("unit");
                     // name is ingredient_name in the database
-                    res.data.ingredients[0].should.have.property("name");
-                    res.data.ingredients[0].name.should.equal("Grape Tomatoes");
+                    res.body.data.ingredients[0].should.have.property("name");
+                    res.body.data.ingredients[0].name.should.equal("Grape Tomatoes");
 
-                    res.data.should.have.property("createdAt");
-                    res.data.should.have.property("updatedAt");
+                    res.body.data.should.have.property("createdAt");
+                    res.body.data.should.have.property("updatedAt");
 
                     //cookbooks should be an array because its many to many relation
-                    res.data.cookbooks.should.be.an("array");
-                    res.data.cookbooks[0].name.should.equal("Watching My Figure");
+                    res.body.data.cookbooks.should.be.an("array");
+                    res.body.data.cookbooks[0].name.should.equal("Watching My Figure");
 
-                    res.data.cookbooks[0].owner.id.should.equal(1);
-                    res.data.cookbooks[0].owner.name.should.equal("Alice Peace");
-                    res.data.cookbooks[0].owner.should.not.have.property("password");
+                    res.body.data.cookbooks[0].owner.id.should.equal(1);
+                    res.body.data.cookbooks[0].owner.name.should.equal("Alice Peace");
+                    res.body.data.cookbooks[0].owner.should.not.have.property("password");
 
                     done();
                 })
