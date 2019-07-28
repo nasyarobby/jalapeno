@@ -37,12 +37,17 @@ module.exports = {
 
 
   test: {
-    client: 'mysql',
+    // client: 'mysql',
+    // connection: {
+    //   host: process.env.TEST_DB_HOST,
+    //   database: process.env.TEST_DB_NAME,
+    //   user: process.env.TEST_DB_USER,
+    //   password: process.env.TEST_DB_PASSWORD,
+    // },
+    client: 'sqlite3',
+    useNullAsDefault: true,
     connection: {
-      host: process.env.TEST_DB_HOST,
-      database: process.env.TEST_DB_NAME,
-      user: process.env.TEST_DB_USER,
-      password: process.env.TEST_DB_PASSWORD,
+      filename: "./database.db"
     },
     migrations: {
       tableName: 'knex_migrations',
