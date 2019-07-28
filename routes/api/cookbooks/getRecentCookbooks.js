@@ -35,7 +35,6 @@ function getRecentCookbooks(req, res) {
                 delete row.created_at;
                 delete row.updated_at;
             }
-            console.log(cookbooks);
             res.setHeader('Content-Type', 'application/json');
             res.send(JSend.setSuccess({cookbooks}).send());
         })

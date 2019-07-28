@@ -237,7 +237,7 @@ describe("Cookbook API Routes", function () {
     context("GET /recipes/:rid", function () {
         it("rid=1 should return content of a recipe id 1", function (done) {
             agent
-                .get("/api/recipes/4")
+                .get("/api/recipes/1")
                 .end((err, res) => {
                     if (err)
                         done(err);
@@ -260,7 +260,7 @@ describe("Cookbook API Routes", function () {
                     res.body.data.notes.should.equal("Great to put in the fridge!");
                     res.body.data.categories.should.be.an('array');
                     res.body.data.categories.length.should.equal(1);
-                    res.body.data.categories[1].name.should.equal("Salad");
+                    res.body.data.categories[0].name.should.equal("Salad");
 
                     res.body.data.ingredients.should.be.an('array');
                     res.body.data.ingredients.length.should.equal(6);

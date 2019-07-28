@@ -22,7 +22,7 @@ class Recipe extends Model {
                         from: 'cookbookrecipe.recipe_id',
                         to: 'cookbookrecipe.cookbook_id'
                     },
-                    to: 'cookbook.id'
+                    to: 'cookbooks.id'
                 }
             },
             categories: {

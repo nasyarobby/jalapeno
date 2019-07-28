@@ -12,7 +12,6 @@ router.get("/", getCookbooks)
 router.get("/recent/:num", getRecentCookbooks)
 router.get("/user/:uid", getCookbooksByUserId)
 router.get("/id/:cid", getRecipesByCookbookId)
-//router.get("/:id", undefined)
 
 module.exports = {
     router: router
