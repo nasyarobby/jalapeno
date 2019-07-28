@@ -136,6 +136,7 @@ describe("Cookbook API Routes", function () {
                     res.should.be.json;
                     res.body.status.should.equals("fail");
                     res.body.data.numOfCookbooks[0].message.should.equal("Number of Cookbooks is invalid or missing.");
+                    done();
                 })
         })
 
