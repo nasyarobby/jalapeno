@@ -263,9 +263,9 @@ describe("Cookbook API Routes", function () {
                     res.body.data.categories[0].name.should.equal("Salad");
 
                     res.body.data.ingredients.should.be.an('array');
-                    res.body.data.ingredients.length.should.equal(6);
+                    res.body.data.ingredients.length.should.equal(8);
                     res.body.data.ingredients[0].should.have.property("quantity");
-                    res.body.data.ingredients[0].should.have.property("quantityText");
+                    res.body.data.ingredients[0].should.have.property("quantity_text");
                     res.body.data.ingredients[0].should.have.property("unit");
                     // name is ingredient_name in the database
                     res.body.data.ingredients[0].should.have.property("name");

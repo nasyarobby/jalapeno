@@ -18,7 +18,8 @@ class Ingredients extends Model {
                     from: 'ingredients.id',
                     through: {
                         from: 'recipeingredient.ingredient_id',
-                        to: 'recipeingredient.recipe_id'
+                        to: 'recipeingredient.recipe_id',
+                        extra: ['quantity', 'quantity_text', 'unit']
                     },
                     to: 'recipes.id'
                 }
