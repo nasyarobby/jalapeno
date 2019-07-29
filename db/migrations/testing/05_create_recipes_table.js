@@ -8,6 +8,7 @@ exports.up = function (knex, Promise) {
         t.string('cookTime')
         t.integer('portions').unsigned()
         t.string('notes').nullable()
+        t.timestamps(true, true)
     })
 };
 
