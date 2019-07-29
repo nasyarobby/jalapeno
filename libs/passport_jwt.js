@@ -13,26 +13,10 @@ passport.use(
             secretOrKey: key
         },
         function (jwtPayload, cb) {
-            /*
-            return UsersRepository.get(jwtPayload.uid)
-                .then(query => {
-                    if (query.results.length > 0) {
-                        let user = query.results[0];
-                        delete(user.password);
-                        return cb(null, user);
-                    }
-                    else {
-                        return cb(null, false);
-                    }
-                })
-                .catch(err => {
-                    return cb(err);
-                });
-            */
-            if (jwtPayload.uid && jwtPayload.email && jwtPayload.name)
+            if (jwtPayload.uid && jwtPayload.username && jwtPayload.name)
                 return cb(null, {
                     id: jwtPayload.uid,
-                    email: jwtPayload.email,
+                    username: jwtPayload.username,
                     name: jwtPayload.name
                 });
             else
