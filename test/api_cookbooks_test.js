@@ -8,6 +8,17 @@ const should = chai.should();
 const App = require("../app");
 const agent = chai.request(App).keepOpen();
 const knex = require("../knex");
+const TokenGenerator = require("./tokenGenerator");
+const token = TokenGenerator.get();
+
+// VALID DATA
+// COOKBOOK
+let data = {
+    cookbook: {
+        name: "Cookbook ABC",
+        category: "Category XYZ"
+    }
+}
 
 describe("Cookbook API Routes", function () {
 
@@ -107,6 +118,7 @@ describe("Cookbook API Routes", function () {
                 .end((err, res) => {
                     if (err)
                         done(err);
+
                     res.should.have.status(200);
                     res.should.be.json;
                     res.body.data.cookbooks.should.be.an("array");
@@ -135,6 +147,7 @@ describe("Cookbook API Routes", function () {
                     res.should.be.json;
                     res.body.status.should.equals("fail");
                     res.body.data.numOfCookbooks[0].message.should.equal("Number of Cookbooks is invalid or missing.");
+                    done();
                 })
         })
 
@@ -262,9 +275,9 @@ describe("Cookbook API Routes", function () {
                     res.body.data.categories[0].name.should.equal("Salad");
 
                     res.body.data.ingredients.should.be.an('array');
-                    res.body.data.ingredients.length.should.equal(6);
+                    res.body.data.ingredients.length.should.equal(8);
                     res.body.data.ingredients[0].should.have.property("quantity");
-                    res.body.data.ingredients[0].should.have.property("quantityText");
+                    res.body.data.ingredients[0].should.have.property("quantity_text");
                     res.body.data.ingredients[0].should.have.property("unit");
                     // name is ingredient_name in the database
                     res.body.data.ingredients[0].should.have.property("name");
@@ -284,5 +297,38 @@ describe("Cookbook API Routes", function () {
                     done();
                 })
         })
+    })
+
+    context("PUT /api/cookbooks", function () {
+        it("creates new cookbooks.", function (done) {
+            agent
+                .put("/api/cookbooks")
+                .set({
+                    "Authorization": "Bearer " + token
+                })
+                .send(data.cookbook)
+                .end((err, res) => {
+                    if (err)
+                        done(err);
+
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.body.status.should.equals("success");
+                    res.body.data.id.should.equals(5);
+                    res.body.data.name.should.equal("Cookbook ABC");
+                    res.body.data.category.should.equal("Category XYZ");
+                    res.body.data.owner.name.should.equal("Alice Peace");
+                    res.body.data.owner.id.should.equal(1);
+                    res.body.data.should.have.property("createdAt");
+                    done();
+                })
+        })
+    })
+    context("PUT /api/cookbooks/id/:id", function () {
+        it("updates the cookbook.")
+    })
+
+    context("PUT /api/recipes/:rid", function () {
+        it("updates the recipe.")
     })
 })

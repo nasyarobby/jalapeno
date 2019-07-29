@@ -82,7 +82,7 @@ function authenticateUser(req, res) {
             } else {
                 const payload = {
                     uid: user.id,
-                    email: user.email,
+                    username: user.username,
                     name: user.name
                 };
                 const token = jwt.sign(payload, process.env.KEY);
