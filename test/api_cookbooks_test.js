@@ -8,6 +8,17 @@ const should = chai.should();
 const App = require("../app");
 const agent = chai.request(App).keepOpen();
 const knex = require("../knex");
+const TokenGenerator = require("./tokenGenerator");
+const token = TokenGenerator.get();
+
+// VALID DATA
+// COOKBOOK
+let data = {
+    cookbook: {
+        name: "Cookbook ABC",
+        category: "Category XYZ"
+    }
+}
 
 describe("Cookbook API Routes", function () {
 
@@ -290,7 +301,27 @@ describe("Cookbook API Routes", function () {
 
     context("PUT /api/cookbooks", function () {
         it("creates new cookbooks.", function (done) {
+            agent
+                .put("/api/cookbooks")
+                .set({
+                    "Authorization": "Bearer " + token
+                })
+                .send(data.cookbook)
+                .end((err, res) => {
+                    if (err)
+                        done(err);
 
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.body.status.should.equals("success");
+                    res.body.data.id.should.equals(5);
+                    res.body.data.name.should.equal("Cookbook ABC");
+                    res.body.data.category.should.equal("Category XYZ");
+                    res.body.data.owner.name.should.equal("Alice Peace");
+                    res.body.data.owner.id.should.equal(1);
+                    res.body.data.should.have.property("createdAt");
+                    done();
+                })
         })
     })
     context("PUT /api/cookbooks/id/:id", function () {
