@@ -4,11 +4,16 @@ const Cookbook = require('../../models/cookbook_model.js')
 
 var getCookbooks = require("./cookbooks/getCookbooks")
 var getRecentCookbooks = require("./cookbooks/getRecentCookbooks")
+var getCookbooksByUserId = require("./cookbooks/getCookbooksByUserId")
+var getRecipesByCookbookId = require("./cookbooks/getRecipesByCookbookId")
+var getDefaultRecentCookbooks = require("./cookbooks/getDefaultRecentCookbooks")
 
 
 router.get("/", getCookbooks)
+router.get("/recent/", getDefaultRecentCookbooks)
 router.get("/recent/:num", getRecentCookbooks)
-//router.get("/:id", undefined)
+router.get("/user/:uid", getCookbooksByUserId)
+router.get("/id/:cid", getRecipesByCookbookId)
 
 module.exports = {
     router: router
