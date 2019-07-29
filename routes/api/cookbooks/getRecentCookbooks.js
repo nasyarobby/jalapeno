@@ -7,21 +7,17 @@ https://medium.com/@nicola.dallasen/express-knex-objection-painless-api-with-db-
 const Cookbook = require("./../../../models/cookbook_model");
 
 function getRecentCookbooks(req, res) {
+    let num;
     if (isNaN(req.params.num) || req.params.num < 0) {
-        let numOfCookbooks = [];
-        numOfCookbooks[0].message = "Number of Cookbooks is invalid or missing."
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSend.setFail({numOfCookbooks}).send());
-        return;
+        res.send(JSend.setFail({
+            numOfCookbooks: [{
+                message: "Number of Cookbooks is invalid or missing."
+            }]
+        }).send());
     }
     else {
-        let num;
-        if (req.params.num == null) {
-            num = 4
-        }
-        else {
-            num = req.params.num;
-        }
+        num = req.params.num;
         Cookbook.query()
             .eager("[owner, recipes]")
             .orderBy([{ column: 'updated_at', order: 'desc' }, { column: 'id', order: 'desc' }])
