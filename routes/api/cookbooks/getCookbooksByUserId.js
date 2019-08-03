@@ -5,6 +5,7 @@ https://medium.com/@nicola.dallasen/express-knex-objection-painless-api-with-db-
 */
 
 const Cookbook = require("../../../models/cookbook_model");
+
 const User = require('../../../models/user_model')
 
 function getCookbooksByUserId(req, res) {
@@ -69,8 +70,4 @@ function getCookbooksByUserId(req, res) {
 //         res.send(JSend.setSuccess({cookbooks, owner}).send());
 //     })
 // }
-
-
-
-
 module.exports = getCookbooksByUserId
