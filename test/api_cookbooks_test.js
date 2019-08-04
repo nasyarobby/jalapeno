@@ -17,6 +17,10 @@ let data = {
     cookbook: {
         name: "Cookbook ABC",
         category: "Category XYZ"
+    },
+    updatedCookbook: {
+        name: "Cookbook DEF",
+        category: "Category 123"
     }
 }
 
@@ -325,7 +329,86 @@ describe("Cookbook API Routes", function () {
         })
     })
     context("PUT /api/cookbooks/id/:id", function () {
-        it("updates the cookbook.")
+        it("updates the cookbook.", function (done) {
+            agent
+                .put("/api/cookbooks/id/1")
+                .set({
+                    "Authorization": "Bearer " + token
+                })
+                .send(data.updatedCookbook)
+                .end((err, res) => {
+                    if (err)
+                        done(err);
+
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.body.status.should.equals("success");
+                    res.body.data.id.should.equals(5);
+                    res.body.data.name.should.equal("Cookbook DEF");
+                    res.body.data.category.should.equal("Category 123");
+                    res.body.data.owner.name.should.equal("Alice Peace");
+                    res.body.data.owner.id.should.equal(1);
+                    res.body.data.should.have.property("createdAt");
+                    res.body.data.shoyld.have.property("updatedAt");
+                    done();
+                })
+        })
+
+        it("updates the cookbook (only name).", function (done) {
+            let updateData = Object.assign({}, data.updatedCookbook);
+            delete updateData.category;
+
+            agent
+                .put("/api/cookbooks/id/1")
+                .set({
+                    "Authorization": "Bearer " + token
+                })
+                .send(updateData)
+                .end((err, res) => {
+                    if (err)
+                        done(err);
+
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.body.status.should.equals("success");
+                    res.body.data.id.should.equals(1);
+                    res.body.data.name.should.equal("Cookbook DEF");
+                    res.body.data.category.should.equal("Healthy");
+                    res.body.data.owner.name.should.equal("Alice Peace");
+                    res.body.data.owner.id.should.equal(1);
+                    res.body.data.should.have.property("createdAt");
+                    res.body.data.shoyld.have.property("updatedAt");
+                    done();
+                })
+        })
+
+        it("upd ates the cookbook (only category).", function (done) {
+            let updateData = Object.assign({}, data.updatedCookbook);
+            delete updateData.name;
+
+            agent
+                .put("/api/cookbooks/id/1")
+                .set({
+                    "Authorization": "Bearer " + token
+                })
+                .send(updateData)
+                .end((err, res) => {
+                    if (err)
+                        done(err);
+
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.body.status.should.equals("success");
+                    res.body.data.id.should.equals(1);
+                    res.body.data.name.should.equal("Watching My Figure");
+                    res.body.data.category.should.equal("Category 123");
+                    res.body.data.owner.name.should.equal("Alice Peace");
+                    res.body.data.owner.id.should.equal(1);
+                    res.body.data.should.have.property("createdAt");
+                    res.body.data.shoyld.have.property("updatedAt");
+                    done();
+                })
+        })
     })
 
     context("PUT /api/recipes/:rid", function () {
