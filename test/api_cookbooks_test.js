@@ -343,13 +343,13 @@ describe("Cookbook API Routes", function () {
                     res.should.have.status(200);
                     res.should.be.json;
                     res.body.status.should.equals("success");
-                    res.body.data.id.should.equals(5);
+                    res.body.data.id.should.equals(1);
                     res.body.data.name.should.equal("Cookbook DEF");
                     res.body.data.category.should.equal("Category 123");
                     res.body.data.owner.name.should.equal("Alice Peace");
                     res.body.data.owner.id.should.equal(1);
                     res.body.data.should.have.property("createdAt");
-                    res.body.data.shoyld.have.property("updatedAt");
+                    res.body.data.should.have.property("updatedAt");
                     done();
                 })
         })
@@ -377,12 +377,12 @@ describe("Cookbook API Routes", function () {
                     res.body.data.owner.name.should.equal("Alice Peace");
                     res.body.data.owner.id.should.equal(1);
                     res.body.data.should.have.property("createdAt");
-                    res.body.data.shoyld.have.property("updatedAt");
+                    res.body.data.should.have.property("updatedAt");
                     done();
                 })
         })
 
-        it("upd ates the cookbook (only category).", function (done) {
+        it("updates the cookbook (only category).", function (done) {
             let updateData = Object.assign({}, data.updatedCookbook);
             delete updateData.name;
 
@@ -405,14 +405,14 @@ describe("Cookbook API Routes", function () {
                     res.body.data.owner.name.should.equal("Alice Peace");
                     res.body.data.owner.id.should.equal(1);
                     res.body.data.should.have.property("createdAt");
-                    res.body.data.shoyld.have.property("updatedAt");
+                    res.body.data.should.have.property("updatedAt");
                     done();
                 })
         })
     })
 
     context("PUT /api/recipes", function () {
-        it("create a new recipe.", function () {
+        it("create a new recipe.", function (done) {
             let data = {
                 name: "Cake 101",
                 description: "Some long description.",
@@ -436,7 +436,7 @@ describe("Cookbook API Routes", function () {
                         unit: "to taste"
                     },
                 ],
-                cookbookId: 1,
+                cookbookId: [{id: 1}],
                 categories: [2]
             }
 
@@ -453,7 +453,7 @@ describe("Cookbook API Routes", function () {
                     res.should.have.status(200);
                     res.should.be.json;
                     res.body.data.should.have.property("id");
-                    res.body.data.id.should.equal(1);
+                    res.body.data.id.should.equal(17);
                     res.body.data.should.have.property("name");
                     res.body.data.name.should.equals(data.name);
                     res.body.data.should.have.property("description");
@@ -463,7 +463,7 @@ describe("Cookbook API Routes", function () {
                     res.body.data.should.have.property("preparationTime");
                     res.body.data.preparationTime.should.equal("10 hour");
                     res.body.data.should.have.property("cookTime");
-                    res.body.data.cookTime.should.equal("0 min");
+                    res.body.data.cookTime.should.equal("0 minute");
                     res.body.data.should.have.property("portions");
                     res.body.data.portions.should.equal(4);
                     res.body.data.should.have.property("notes");

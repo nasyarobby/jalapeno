@@ -9,6 +9,7 @@ var getCookbooksByUserId = require("./cookbooks/getCookbooksByUserId")
 var getRecipesByCookbookId = require("./cookbooks/getRecipesByCookbookId")
 var getDefaultRecentCookbooks = require("./cookbooks/getDefaultRecentCookbooks")
 var putCookbook = require("./cookbooks/createCookbook")
+var updateCookbook = require("./cookbooks/updateCookbook")
 
 router.get("/", getCookbooks)
 router.get("/recent/", getDefaultRecentCookbooks)
@@ -16,6 +17,7 @@ router.get("/recent/:num", getRecentCookbooks)
 router.get("/user/:uid", getCookbooksByUserId)
 router.get("/id/:cid", getRecipesByCookbookId)
 router.put("/", middlewares.checkAuthJwt, putCookbook)
+router.put("/id/:cid", middlewares.checkAuthJwt, updateCookbook)
 
 module.exports = {
     router: router

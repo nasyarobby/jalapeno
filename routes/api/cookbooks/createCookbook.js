@@ -1,10 +1,7 @@
 const JSend = new(require("../../../libs/jsend"))();
 const Cookbook = require("../../../models/cookbook_model");
-const User = require('../../../models/user_model')
 
 function putCookbook(req, res) {
-    console.log(req.body)
-    console.log(req.user)
     let cname = req.body.name;
     let category = req.body.category;
     let user_id = req.user.id
@@ -15,7 +12,6 @@ function putCookbook(req, res) {
             category: category
         })
         .then(cb => {
-            console.log(cb)
             let id = cb.id;
             let name = cb.cookbook_name;
             let category = cb.category;
