@@ -181,9 +181,9 @@ describe("Cookbook API Routes", function () {
     })
 
     context("GET /api/cookbooks/user/:uid", function () {
-        it("uid=1 should return Alice's cookbooks", function (done) {
+        it("uid=alice001 should return Alice's cookbooks", function (done) {
             agent
-                .get("/api/cookbooks/user/1")
+                .get("/api/cookbooks/user/alice001")
                 .end((err, res) => {
                     if (err)
                         done(err);
