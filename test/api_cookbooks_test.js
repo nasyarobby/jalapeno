@@ -436,7 +436,9 @@ describe("Cookbook API Routes", function () {
                         unit: "to taste"
                     },
                 ],
-                cookbookId: [{id: 1}],
+                cookbookId: [{
+                    id: 1
+                }],
                 categories: [2]
             }
 
@@ -482,7 +484,7 @@ describe("Cookbook API Routes", function () {
                     res.body.data.ingredients[0].should.have.property("name");
                     res.body.data.ingredients[0].name.should.equal(data.ingredients[0].name);
 
-                    res.body.data.ingredients[1].id.should.equal(76);
+                    res.body.data.ingredients[1].id.should.satisfy(id => id == 76 || id == 6)
 
                     res.body.data.should.have.property("createdAt");
 
