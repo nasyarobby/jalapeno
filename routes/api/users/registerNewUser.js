@@ -3,9 +3,7 @@ const sendVerificationCode = require("./sendVerificationCode")
 const hashCode = require("./hashCode")
 const JSend = new(require("../../../libs/jsend"))();
 const hash = require("./../../../libs/hash").hash;
-const {
-    ValidationError
-} = require('objection');
+const {ValidationError} = require('objection');
 
 async function registerNewUser(req, res) {
     let errors = {
@@ -18,7 +16,13 @@ async function registerNewUser(req, res) {
     let email = req.body.email ? req.body.email.trim() : req.body.email;
     let username = req.body.username ? req.body.username.trim().toLowerCase() : req.body.username;
     let name = req.body.name ? req.body.name.trim() : req.body.name;
-    let password = req.body.password;
+    let password;
+    if (req.body.hasOwnProperty('password')) {
+        password = req.body.password;
+    }
+    else {
+        password = ""
+    }
 
     errors.email = await validateEmail(email);
     errors.username = await validateUsername(username)
