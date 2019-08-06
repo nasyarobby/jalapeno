@@ -504,4 +504,36 @@ describe("Cookbook API Routes", function () {
     context("PUT /api/recipes/:rid", function () {
         it("updates the recipe.")
     })
+
+    context("DELETE /api/cookbooks/id/:cid", function () {
+        it("delete the cookbook", function (done) {
+            agent
+                .delete("/api/cookbooks/id/1")
+                .set({
+                    "Authorization": "Bearer " + token
+                })
+                .end((err, res) => {
+                    if (err) done(err);
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.body.status.should.equal("success");
+                })
+        })
+    })
+
+    context("DELETE /api/recipes/:rid", function () {
+        it("delete the cookbook", function (done) {
+            agent
+                .delete("/api/recipes/1")
+                .set({
+                    "Authorization": "Bearer " + token
+                })
+                .end((err, res) => {
+                    if (err) done(err);
+                    res.should.have.status(200);
+                    res.should.be.json;
+                    res.body.status.should.equal("success");
+                })
+        })
+    })
 })
