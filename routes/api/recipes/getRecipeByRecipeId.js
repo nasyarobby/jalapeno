@@ -1,9 +1,4 @@
 const JSend = new(require("../../../libs/jsend"))();
-/* using ObjectionJS for data model
-https://vincit.github.io/objection.js/
-https://medium.com/@nicola.dallasen/express-knex-objection-painless-api-with-db-74512c484f0c
-*/
-
 const Recipe = require("../../../models/recipe_model");
 
 function getRecipeByRecipeId(req, res) {
@@ -25,7 +20,6 @@ function getRecipeByRecipeId(req, res) {
         .modifyEager('categories.category', categoriesBuilder => categoriesBuilder.select('category as name'))
         .where("id", req.params.rid)
         .orderBy([{ column: 'updated_at', order: 'desc' }, { column: 'id', order: 'desc' }])
-        //.orderBy([{ column: 'id', order: 'desc' }])
         .then(rs => {
             id = rs[0].id;
             name = rs[0].recipe_name;

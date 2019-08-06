@@ -603,12 +603,14 @@ describe("Cookbook API Routes", function () {
                     res.should.have.status(200);
                     res.should.be.json;
                     res.body.status.should.equal("success");
+
+                    done();
                 })
         })
     })
 
     context("DELETE /api/recipes/:rid", function () {
-        it("delete the cookbook", function (done) {
+        it("delete the recipe", function (done) {
             agent
                 .delete("/api/recipes/1")
                 .set({
@@ -619,6 +621,8 @@ describe("Cookbook API Routes", function () {
                     res.should.have.status(200);
                     res.should.be.json;
                     res.body.status.should.equal("success");
+
+                    done();
                 })
         })
     })

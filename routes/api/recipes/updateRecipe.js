@@ -1,8 +1,17 @@
 const JSend = new(require("../../../libs/jsend"))();
-const Recipe = require('../../../models/recipe_model');
+const Recipe = require("../../../models/recipe_model");
 const Ingredient = require('../../../models/ingredient_model');
 
-function putRecipe(req, res) {
+function updateRecipe(req, res) {
+    let today = new Date();
+    var yyyy = today.getFullYear();
+    var mon = String(today.getMonth() + 1).padStart(2, '0');
+    var dd = String(today.getDate()).padStart(2, '0');
+    var hh = String(today.getHours()).padStart(2, '0');
+    var mm = String(today.getMinutes()).padStart(2, '0');
+    var ss = String(today.getSeconds()).padStart(2, '0');
+    today = yyyy + "-" + mon + "-" + dd + " " + hh + ":" + mm + ":" + ss;
+
     let rname = req.body.name;
     let rdesc = req.body.description;
     let rdirections = req.body.directions;
@@ -65,7 +74,8 @@ function putRecipe(req, res) {
             })
 
             return Recipe.query()
-                .insertGraphAndFetch({
+                .upsertGraphAndFetch({
+                    id: req.params.rid,
                     recipe_name: rname,
                     description: rdesc,
                     directions: rdirections,
@@ -87,7 +97,17 @@ function putRecipe(req, res) {
                 })
         })
         .then(result => {
-            console.log(result);
+            let originalIngredients = [];
+
+            for (var i = 0; i < ringredients.length; i++) {
+                var elementi = ringredients[i];
+                for (var j = 0; j < result.ingredients.length; j++) {
+                    var elementj = result.ingredients[j];
+                    if (elementi.id == elementj.id) {
+                        originalIngredients[i] = result.ingredients[j];
+                    }
+                }
+            }
 
             // altering properties
             result.name = result.recipe_name;
@@ -98,12 +118,13 @@ function putRecipe(req, res) {
             delete result.categories[0].cookbook_name;
             result.createdAt = result.created_at;
             delete result.created_at;
-            result.updatedAt = result.updated_at;
+            result.updatedAt = today;
             delete result.updated_at;
+
+            result.ingredients = originalIngredients
 
             result.ingredients = result.ingredients.map(e => {
                 e.name = e.ingredient_name;
-                delete e.ingredient_name;
                 return e;
             })
 
@@ -114,4 +135,4 @@ function putRecipe(req, res) {
         })
 }
 
-module.exports = putRecipe;
+module.exports = updateRecipe;
