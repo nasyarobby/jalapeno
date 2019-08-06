@@ -29,7 +29,7 @@ async function registerNewUser(req, res) {
         email: email,
         username: username,
         name: name,
-        password: password
+        password: hash(password)
     }, req, res);
     if (newUser) {
         sendVerificationCode(username, email, name, newUser.verification_code);
