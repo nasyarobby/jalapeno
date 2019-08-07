@@ -93,7 +93,8 @@ function updateRecipe(req, res) {
                     }]
 
                 }, {
-                    relate: true
+                    relate: true,
+                    unrelate: true
                 })
         })
         .then(result => {
