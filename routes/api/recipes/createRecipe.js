@@ -87,8 +87,6 @@ function putRecipe(req, res) {
                 })
         })
         .then(result => {
-            console.log(result);
-
             // altering properties
             result.name = result.recipe_name;
             delete result.recipe_name;

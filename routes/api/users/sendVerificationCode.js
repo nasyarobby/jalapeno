@@ -39,8 +39,6 @@ function sendVerificationCode(username, to, name, code, resend = false) {
 
     transporter.sendMail(email, function (err, info) {
         if (err)
-            console.log(err);
-        console.log(info);
     });
 }
 

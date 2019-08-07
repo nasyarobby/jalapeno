@@ -13,7 +13,6 @@ function getDefaultRecentCookbooks(req, res) {
         .orderBy([{ column: 'updated_at', order: 'desc' }, { column: 'id', order: 'desc' }])
         .limit(num)
         .then(cookbooks => {
-            console.log(num)
             for (row of cookbooks) {
                 delete row.owner.password;
                 row.name = row.cookbook_name;
