@@ -40,7 +40,7 @@ describe("User API Routes", function () {
                 done();
             })
             .catch((err) => {
-                done(err)
+                done(err);
             })
     })
 
