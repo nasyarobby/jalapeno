@@ -4,7 +4,7 @@ exports.up = function (knex, Promise) {
         t.integer('cookbook_id').unsigned()
         t.integer('recipe_id').unsigned()
         t.foreign('cookbook_id').references('id').inTable('cookbooks').onDelete('CASCADE')
-        t.foreign('recipe_id').references('id').inTable('recipes')
+        t.foreign('recipe_id').references('id').inTable('recipes').onDelete('CASCADE')
     })
 };
 
