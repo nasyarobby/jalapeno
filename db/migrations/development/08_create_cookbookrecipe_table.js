@@ -3,8 +3,8 @@ exports.up = function (knex, Promise) {
         t.increments('id')
         t.integer('cookbook_id').unsigned()
         t.integer('recipe_id').unsigned()
-        t.foreign('cookbook_id').references('id').inTable('cookbooks')
-        t.foreign('recipe_id').references('id').inTable('recipes')
+        t.foreign('cookbook_id').references('id').inTable('cookbooks').onDelete('CASCADE')
+        t.foreign('recipe_id').references('id').inTable('recipes').onDelete('CASCADE')
     })
 };
 
