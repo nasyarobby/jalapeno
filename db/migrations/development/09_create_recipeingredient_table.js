@@ -5,7 +5,7 @@ exports.up = function (knex, Promise) {
         t.integer('ingredient_id').unsigned()
         t.foreign('recipe_id').references('id').inTable('recipes').onDelete("CASCADE")
         t.foreign('ingredient_id').references('id').inTable('ingredients')
-        t.float('quantity', 4, 2)
+        t.float('quantity', 8, 2)
         t.string('quantity_text').nullable()
         t.string('unit')
     })
