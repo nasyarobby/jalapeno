@@ -1,19 +1,14 @@
 const JSend = new(require("../../../libs/jsend"))();
-/* using ObjectionJS for data model
-https://vincit.github.io/objection.js/
-https://medium.com/@nicola.dallasen/express-knex-objection-painless-api-with-db-74512c484f0c
-*/
+const Cookbook = require("../../../models/cookbook_model");
 
-const Cookbook = require("./../../../models/cookbook_model");
-
-function getDefaultRecentCookbooks(req, res) {
-    let num = 4;
+function getCookbooksByCategory(req, res) {
+    let cookbooks;
     Cookbook.query()
         .eager("[owner, recipes]")
+        .where("category", req.params.name)
         .orderBy([{ column: 'updated_at', order: 'desc' }, { column: 'id', order: 'desc' }])
-        .limit(num)
-        .then(cookbooks => {
-            for (row of cookbooks) {
+        .then(cbs => {
+            for (row of cbs) {
                 delete row.owner.password;
                 row.name = row.cookbook_name;
                 row.createdAt = row.created_at;
@@ -23,9 +18,11 @@ function getDefaultRecentCookbooks(req, res) {
                 delete row.created_at;
                 delete row.updated_at;
             }
+            cookbooks = cbs
             res.setHeader('Content-Type', 'application/json');
             res.send(JSend.setSuccess({cookbooks}).send());
         })
+    
 }
 
-module.exports = getDefaultRecentCookbooks
+module.exports = getCookbooksByCategory

@@ -37,11 +37,7 @@ function sendVerificationCode(username, to, name, code, resend = false) {
 
     let transporter = nodemailer.createTransport(config);
 
-    transporter.sendMail(email, function (err, info) {
-        if (err)
-            console.log(err);
-        console.log(info);
-    });
+    transporter.sendMail(email, function (err, info) {});
 }
 
-module.exports = sendVerificationCode
+module.exports = sendVerificationCode;

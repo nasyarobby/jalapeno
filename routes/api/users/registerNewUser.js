@@ -175,10 +175,8 @@ async function createNewUser(errors, data, req, res) {
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSend.setFail(error.data).send());
             } else if (error.errno == 1062) {
-                console.log(error);
                 res.send("username/email exists");
             } else {
-                console.log(error);
                 res.send("Error occured.");
             }
         })

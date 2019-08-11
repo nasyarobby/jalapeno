@@ -74,7 +74,5 @@ let config = {
 }
 
 config.test = process.env.TEST_ENV ? config[process.env.TEST_ENV] : testDefault
-if (process.env.NODE_ENV == "test" && process.env.TEST_ENV)
-  console.log("Using testing environment with override configuration: ", process.env.TEST_ENV)
 
 module.exports = config;
